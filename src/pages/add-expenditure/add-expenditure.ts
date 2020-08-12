@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { DatePipe } from '@angular/common'; 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DatabaseProvider } from '../../providers/database/database';
 
 @IonicPage()
 @Component({
@@ -21,10 +22,13 @@ export class AddAccountPage {
   public today: any;
   public maxDate: any = this.transformDateFormat1(new Date());
 
+  public categories = [];
+
   someForm: FormGroup;
 
   constructor(
     public navCtrl: NavController,
+    private database: DatabaseProvider,
     public navParams: NavParams,
     private datePipe: DatePipe, 
     public formBuilder: FormBuilder
@@ -37,6 +41,17 @@ export class AddAccountPage {
       'description': ['', Validators.compose([Validators.required])],
       'amount': ['', Validators.compose([Validators.required])],
     });
+
+    this.categories.push({
+      id:1,
+      name:"Foof",
+    });
+
+    this.categories.push({
+      id:2,
+      name:"Medicine",
+    });
+
   }
 
   ionViewDidLoad() {
@@ -50,10 +65,50 @@ export class AddAccountPage {
     console.log(this.date);
     console.log(this.category);
 
+    /* let date = this.date;
+    let category = this.category;
+    let description = this.description;
+    let amount = this.amount; */
+
+    
+
   }
 
-  validateInput(){
-    
+  setCategories(){
+
+    this.database.getCategories().then((result) => { 
+
+      let categories;
+
+      if(result != 0){
+
+        categories =  result;  
+
+        let categoriesLength = categories.length;
+
+        if(categoriesLength > 0){
+
+          for(let i=0; i < categoriesLength; i++) {
+
+            this.categories.push({
+              id:categories[i].id,
+              name:categories[i].name,
+            });
+       
+          }
+
+        }
+      }   
+
+    });
+  }
+
+  insertCategories(){
+    this.database.insertCategory("Food");
+    this.database.insertCategory("Medicine");
+    this.database.insertCategory("Clothes");
+    this.database.insertCategory("Bills");
+    this.database.insertCategory("Other");
   }
 
   transformDateFormat1(date):string {

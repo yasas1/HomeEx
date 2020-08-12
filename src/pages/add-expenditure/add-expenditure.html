@@ -35,12 +35,12 @@
       </ion-select>
     </ion-item>
     <br>
-    <!-- <ion-item>
-      <ion-label>Employee</ion-label>
-      <ion-select [(ngModel)]="employee" [compareWith]="compareFn">
-        <ion-option *ngFor="let employee of employees" [value]="employee"></ion-option>
+    <ion-item>
+      <ion-label>Categories</ion-label>
+      <ion-select >
+        <ion-option *ngFor="let categorie of categories" [value]="categorie.id">{{categorie.name}}</ion-option>
       </ion-select>
-    </ion-item> -->
+    </ion-item>
     
     <ion-item>
       <ion-label>Description</ion-label>
