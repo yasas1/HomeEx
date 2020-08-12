@@ -107,7 +107,7 @@ export class DatabaseProvider {
       });
   }
 
-  /**  Get count for given table */
+  /**  Get Expenditures by date */
   getExpendituresByDate(date:string) {
 
     return this.databaseObj.executeSql(`
@@ -133,8 +133,31 @@ export class DatabaseProvider {
           }
         })
         .catch(error => {
-          this.alertViewer.presentAlert("Offline Messages Getting Error! ","get error"+JSON.stringify(error));
+          this.alertViewer.presentAlert("Offline Messages Getting Error! ","Get error"+JSON.stringify(error));
         });
+  }
+
+  /**  Update Expenditure by id */
+  updateExpenditureById(id:number,date:string,category_id:number,description:string,amount:number) {
+    this.databaseObj.executeSql(`
+      UPDATE expenditure
+      SET date = '${date}', category_id = '${category_id}', description = '${description}',amount = '${amount}'
+      WHERE id = '${id}'
+    `, [])
+      .catch(error => {
+        this.alertViewer.presentAlert("Updating Error! ","Expenditure updating error");
+      });
+  }
+
+  /**  Delete Expenditure by id */
+  deleteExpenditureById(id:number) {
+    this.databaseObj.executeSql(`
+      DELETE FROM expenditure 
+      WHERE id = '${id}';
+    `, [])
+      .catch(error => {
+        this.alertViewer.presentAlert("Deleting Error! ","Expenditure updating error");
+      });
   }
 
 
