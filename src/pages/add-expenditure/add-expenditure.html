@@ -17,44 +17,39 @@
     <ion-title>Add Your Expenditure</ion-title>
   </div>
   <br><br>
-  <div  [formGroup]="someForm">
+
+  <div [formGroup]="someForm">
 
     <ion-item>
       <ion-label>Date</ion-label>
       <ion-datetime formControlName="date" displayFormat="MMMM DD YYYY" [(ngModel)]="date" name="date" max="{{maxDate}}"></ion-datetime>
     </ion-item>
-    <br>
+    <br><br>
 
     <ion-item>
       <ion-label>Category</ion-label>
       <ion-select formControlName="category" [(ngModel)]="category" name="category">
-        <ion-option value="1">Bacon </ion-option>
-        <ion-option value="2">Black Olives</ion-option>
-        <ion-option value="3">Extra Cheese</ion-option>
-        <ion-option value="4">Mushrooms</ion-option>
-      </ion-select>
-    </ion-item>
-    <br>
-    <ion-item>
-      <ion-label>Categories</ion-label>
-      <ion-select >
         <ion-option *ngFor="let categorie of categories" [value]="categorie.id">{{categorie.name}}</ion-option>
       </ion-select>
     </ion-item>
-    
+    <br><br>
+
     <ion-item>
       <ion-label>Description</ion-label>
       <ion-textarea formControlName="description" clearOnEdit="true" [(ngModel)]="description" name="description"></ion-textarea>
     </ion-item>
-    <br>
+    <br><br>
 
     <ion-item>
       <ion-label>Amount Rs. </ion-label> 
       <ion-input formControlName="amount" type="number" [(ngModel)]="amount" name="amount"></ion-input>
     </ion-item>
-    <br>
+    <br><br>
     
-    <button [disabled]="!someForm.valid" ion-button (click)="addAccount()"  block>Add Account</button> 
+    <button [disabled]="!someForm.valid" ion-button (click)="addExpenditure()"  block>Add Expenditure </button> 
+
+    <button [disabled]="!someForm.valid" ion-button (click)="getExpenditures()"  block>Get Expenditures </button> 
+    
 
   </div>
 

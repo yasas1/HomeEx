@@ -3,7 +3,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { DatePipe } from '@angular/common'; 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatabaseProvider } from '../../providers/database/database';
-
+import { AlertViewerProvider } from '../../providers/alert-viewer/alert-viewer';
+import { Platform} from 'ionic-angular';
 @IonicPage()
 @Component({
   selector: 'page-add-expenditure',
@@ -30,8 +31,10 @@ export class AddAccountPage {
     public navCtrl: NavController,
     private database: DatabaseProvider,
     public navParams: NavParams,
+    private platform: Platform,
     private datePipe: DatePipe, 
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+    public alertViewer: AlertViewerProvider
     ) {
     this.today = this.transformDateFormat2(new Date());
 
@@ -42,38 +45,64 @@ export class AddAccountPage {
       'amount': ['', Validators.compose([Validators.required])],
     });
 
-    this.categories.push({
-      id:1,
-      name:"Foof",
-    });
-
-    this.categories.push({
-      id:2,
-      name:"Medicine",
-    });
-
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddAccountPage');
+    this.platform
+      .ready()
+      .then(() =>
+      {
+        setTimeout(() =>
+        {
+          this.setCategories(); 
+        }, 1000);
+      });
   }
 
-  addAccount() {
+  addExpenditure() {
 
     console.log(this.description);
     console.log(this.amount);
     console.log(this.date);
     console.log(this.category);
 
-    /* let date = this.date;
+    let date = this.date;
     let category = this.category;
     let description = this.description;
-    let amount = this.amount; */
+    let amount = this.amount; 
 
-    
+    this.alertViewer.presentAlert("Expenditure ",date +" "+category+" "+description+" "+amount);
+
+    this.database.insertExpenditure(date.to, category, description, amount);
 
   }
 
+  getExpenditures(){
+    this.database.getExpendituresByDate("2020-08-13").then((result) => { 
+
+      let expenditures;
+
+      if(result != 0){
+
+        expenditures =  result;  
+
+        let expendituresLength = expenditures.length;
+
+        if(expendituresLength > 0){
+
+          for(let i=0; i < expendituresLength; i++) {
+
+            this.alertViewer.presentAlert("Insert Error! ",expenditures[i].id+" "+expenditures[i].date+" "+expenditures[i].category+" "+expenditures[i].amount);
+          }
+
+        }
+      }   
+
+    });
+  }
+
+  /** Get categories from db and set category drop down ngModel */
   setCategories(){
 
     this.database.getCategories().then((result) => { 

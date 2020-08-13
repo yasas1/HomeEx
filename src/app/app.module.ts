@@ -13,6 +13,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { AddAccountPage } from '../pages/add-expenditure/add-expenditure';
 import { DatabaseProvider } from '../providers/database/database';
 import { NetworkProvider } from '../providers/network/network';
+import { AlertViewerProvider } from '../providers/alert-viewer/alert-viewer';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { NetworkProvider } from '../providers/network/network';
     DatePipe,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DatabaseProvider,
-    NetworkProvider
+    NetworkProvider,
+    AlertViewerProvider
   ]
 })
 export class AppModule {}

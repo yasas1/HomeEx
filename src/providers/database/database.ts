@@ -1,8 +1,9 @@
 //import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AlertController, Platform} from 'ionic-angular';
+import { Platform} from 'ionic-angular';
 import { SQLite,SQLiteObject } from '@ionic-native/sqlite';
-//import { AlertViewer } from '../../utils/AlertsViewer';
+import { AlertViewerProvider } from '../alert-viewer/alert-viewer';
+
 
 /*
   @author Yasas Ranawaka
@@ -25,13 +26,13 @@ export class DatabaseProvider {
     //public http: HttpClient,
     private platform: Platform,
     private sqlite: SQLite,
-    private alertViewer: AlertController
+    public alertViewer: AlertViewerProvider
     ) {
     console.log('Hello DatabaseProvider Provider');
     this.platform.ready().then(() => {
       this.createDB();  
     }).catch(error => {
-      this.presentAlert("Error ","Database creating Error!");
+      this.alertViewer.presentAlert("Error ","Database creating Error!");
     });
   }
 
@@ -48,7 +49,7 @@ export class DatabaseProvider {
         this.createCategoryTable(this.categoryTable);
       })
       .catch(e => {
-        this.presentAlert("Table Creating! ","Table Creating Error! ");
+        this.alertViewer.presentAlert("Table Creating! ","Table Creating Error! ");
       })
   }
 
@@ -58,7 +59,7 @@ export class DatabaseProvider {
     CREATE TABLE IF NOT EXISTS ${table} (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, category_id INT, description TEXT, amount INT)
     `, [])
       .catch(e => {
-        this.presentAlert("Table Creating! ","Expenditure Table Creating Error");
+        this.alertViewer.presentAlert("Table Creating! ","Expenditure Table Creating Error");
       });
   }
 
@@ -68,7 +69,7 @@ export class DatabaseProvider {
     CREATE TABLE IF NOT EXISTS ${table} (id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT)
     `, [])
       .catch(e => {
-        this.presentAlert("Table Creating! ","Expenditure Table Creating Error");
+        this.alertViewer.presentAlert("Table Creating! ","Expenditure Table Creating Error");
       });
   }
 
@@ -78,10 +79,10 @@ export class DatabaseProvider {
     DROP TABLE ${table}
     `, [])
       .then(() => {
-        this.presentAlert("Table Dropped! ", `${ table } Table Droped`);
+        this.alertViewer.presentAlert("Table Dropped! ", `${ table } Table Droped`);
       })
       .catch(e => {
-        this.presentAlert("Table Dropped! ","Error");
+        this.alertViewer.presentAlert("Table Dropped! ","Error");
       });
   }
 
@@ -92,7 +93,7 @@ export class DatabaseProvider {
       INSERT INTO expenditure (date,category_id,description,amount) VALUES ('${date}','${category_id}','${description}','${amount}')
     `, [])
       .catch(e => {
-        this.presentAlert("Insert Error! ","Expenditure inserting error");
+        this.alertViewer.presentAlert("Insert Error! ","Expenditure inserting error");
       });
   }
 
@@ -103,7 +104,7 @@ export class DatabaseProvider {
       INSERT INTO category (name) VALUES ('${name}')
     `, [])
       .catch(e => {
-        this.presentAlert("Insert Error! ","Category inserting error");
+        this.alertViewer.presentAlert("Insert Error! ","Category inserting error");
       });
   }
 
@@ -114,10 +115,15 @@ export class DatabaseProvider {
       SELECT e.id, c.name, e.date, e.description, e.amount FROM expenditure e JOIN category c ON e.category_id = c.id WHERE e.date='${date}'
       `, [])
         .then((data) => {
+
           let expenditures= [];
+
           if(data.rows.length > 0){
+
             for(let i=0; i <data.rows.length; i++) {
-              console.log(data.rows.item(i));
+
+              this.alertViewer.presentAlert("Expenditures Row! ","Get row "+ data.rows.item(i).amount);
+
               expenditures.push({
                 id:data.rows.item(i).id,
                 date:data.rows.item(i).date,
@@ -133,8 +139,9 @@ export class DatabaseProvider {
           }
         })
         .catch(error => {
-          this.presentAlert("Expenditures Getting Error! ","Get error"+JSON.stringify(error));
-        });
+          this.alertViewer.presentAlert("Expenditures Getting Error! ","Get error"+JSON.stringify(error));
+        }
+    );
   }
 
   /**  Get Categories by date */
@@ -144,14 +151,17 @@ export class DatabaseProvider {
       SELECT * FROM category 
       `, [])
         .then((data) => {
+
           let categories= [];
           if(data.rows.length > 0){
+
             for(let i=0; i <data.rows.length; i++) {
-              console.log(data.rows.item(i));
+
               categories.push({
                 id:data.rows.item(i).id,
                 name:data.rows.item(i).name
               });
+
             }
             return categories;
           }
@@ -160,8 +170,9 @@ export class DatabaseProvider {
           }
         })
         .catch(error => {
-          this.presentAlert("Categories Getting Error! ","Get error"+JSON.stringify(error));
-        });
+          this.alertViewer.presentAlert("Categories Getting Error! ","Get error"+JSON.stringify(error));
+        }
+    );
   }
 
   /**  Update Expenditure by id */
@@ -172,8 +183,9 @@ export class DatabaseProvider {
       WHERE id = '${id}'
     `, [])
       .catch(error => {
-        this.presentAlert("Updating Error! ","Expenditure updating error");
-      });
+        this.alertViewer.presentAlert("Updating Error! ","Expenditure updating error");
+      }
+    );
   }
 
   /**  Delete Expenditure by id */
@@ -183,19 +195,10 @@ export class DatabaseProvider {
       WHERE id = '${id}';
     `, [])
       .catch(error => {
-        this.presentAlert("Deleting Error! ","Expenditure updating error");
-      });
+        this.alertViewer.presentAlert("Deleting Error! ","Expenditure updating error");
+      }
+    );
   }
-
-  presentAlert(alertTitle:string, alertMessage:string) {
-
-    let alert = this.alertViewer.create({
-      title: alertTitle,
-      message: alertMessage,
-      buttons: ['Dismiss']
-    });
-    alert.present();
-}
 
 
 }
