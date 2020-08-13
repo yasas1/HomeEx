@@ -18,7 +18,7 @@
   </div>
   <br><br>
 
-  <div [formGroup]="someForm">
+  <div [formGroup]="expenditureForm">
 
     <ion-item>
       <ion-label>Date</ion-label>
@@ -45,10 +45,14 @@
       <ion-input formControlName="amount" type="number" [(ngModel)]="amount" name="amount"></ion-input>
     </ion-item>
     <br><br>
-    
-    <button [disabled]="!someForm.valid" ion-button (click)="addExpenditure()"  block>Add Expenditure </button> 
 
-    <button [disabled]="!someForm.valid" ion-button (click)="getExpenditures()"  block>Get Expenditures </button> 
+    <div text-center>
+      <button ion-button color="secondary" [disabled]="!expenditureForm.valid" (click)="addExpenditure()" round>Add Expenditure </button>
+    </div>
+    
+    <br>
+
+    <button ion-button (click)="getExpenditures()"  round outline>Get Expenditures </button> 
     
 
   </div>

@@ -122,8 +122,6 @@ export class DatabaseProvider {
 
             for(let i=0; i <data.rows.length; i++) {
 
-              this.alertViewer.presentAlert("Expenditures Row! ","Get row "+ data.rows.item(i).amount);
-
               expenditures.push({
                 id:data.rows.item(i).id,
                 date:data.rows.item(i).date,

@@ -25,7 +25,7 @@ export class AddAccountPage {
 
   public categories = [];
 
-  someForm: FormGroup;
+  expenditureForm: FormGroup;
 
   constructor(
     public navCtrl: NavController,
@@ -38,7 +38,7 @@ export class AddAccountPage {
     ) {
     this.today = this.transformDateFormat2(new Date());
 
-    this.someForm = formBuilder.group({
+    this.expenditureForm = formBuilder.group({
       'date': ['', Validators.compose([Validators.required])],
       'category': ['', Validators.compose([Validators.required])],
       'description': ['', Validators.compose([Validators.required])],
@@ -48,7 +48,7 @@ export class AddAccountPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad AddAccountPage');
+    
     this.platform
       .ready()
       .then(() =>
@@ -62,19 +62,17 @@ export class AddAccountPage {
 
   addExpenditure() {
 
-    console.log(this.description);
-    console.log(this.amount);
-    console.log(this.date);
-    console.log(this.category);
-
     let date = this.date;
     let category = this.category;
     let description = this.description;
     let amount = this.amount; 
 
-    this.alertViewer.presentAlert("Expenditure ",date +" "+category+" "+description+" "+amount);
+    this.database.insertExpenditure(date, category, description, amount);
 
-    this.database.insertExpenditure(date.to, category, description, amount);
+    setTimeout(() =>
+    {
+      this.expenditureForm.reset()
+    }, 1000);
 
   }
 
@@ -93,11 +91,14 @@ export class AddAccountPage {
 
           for(let i=0; i < expendituresLength; i++) {
 
-            this.alertViewer.presentAlert("Insert Error! ",expenditures[i].id+" "+expenditures[i].date+" "+expenditures[i].category+" "+expenditures[i].amount);
+            this.alertViewer.presentAlert("Get Expenditures! ",expenditures[i].id+" "+expenditures[i].date+" "+expenditures[i].category+" "+expenditures[i].amount);
           }
 
         }
-      }   
+      }  
+      else{
+        expenditures = 0;
+      } 
 
     });
   }
