@@ -55,7 +55,7 @@ export class AddAccountPage {
       {
         setTimeout(() =>
         {
-          this.setCategories(); 
+          this.checkAndsetCategories();
         }, 1000);
       });
   }
@@ -69,15 +69,15 @@ export class AddAccountPage {
 
     this.database.insertExpenditure(date, category, description, amount);
 
-    setTimeout(() =>
-    {
-      this.expenditureForm.reset()
-    }, 1000);
+  }
 
+  clearInputFields(){
+
+    this.expenditureForm.reset()
   }
 
   getExpenditures(){
-    this.database.getExpendituresByDate("2020-08-13").then((result) => { 
+    this.database.getExpendituresByDate("2020-08-14").then((result) => { 
 
       let expenditures;
 
@@ -103,8 +103,25 @@ export class AddAccountPage {
     });
   }
 
-  /** Get categories from db and set category drop down ngModel */
-  setCategories(){
+  /** check categories count from db and set categories*/
+  checkAndsetCategories(){
+
+    this.database.getCategoriesCount().then((result) => {
+
+      if(result != 0){
+        this.setCategoriesInDropDown();
+      }
+      else{
+        this.insertCategories();
+        this.setCategoriesInDropDown();
+      }
+
+    });
+
+  }
+
+  /** Get categories from db and SET category drop down ngModel */
+  setCategoriesInDropDown(){
 
     this.database.getCategories().then((result) => { 
 
@@ -126,13 +143,15 @@ export class AddAccountPage {
             });
        
           }
-
         }
-      }   
-
+      }  
     });
+
   }
 
+
+
+  /** insert default categories */
   insertCategories(){
     this.database.insertCategory("Food");
     this.database.insertCategory("Medicine");

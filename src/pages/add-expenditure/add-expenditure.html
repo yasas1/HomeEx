@@ -47,12 +47,28 @@
     <br><br>
 
     <div text-center>
-      <button ion-button color="secondary" [disabled]="!expenditureForm.valid" (click)="addExpenditure()" round>Add Expenditure </button>
+      <button ion-button (click)="getExpenditures()"  round outline>Get Expenditures </button> 
     </div>
     
     <br>
 
-    <button ion-button (click)="getExpenditures()"  round outline>Get Expenditures </button> 
+    <div text-center>
+
+      <ion-grid>
+
+        <ion-row>
+            <ion-col>
+              <button ion-button (click)="clearInputFields()"  round outline> Clear </button> 
+            </ion-col>
+    
+            <ion-col>
+              <button ion-button color="secondary" [disabled]="!expenditureForm.valid" (click)="addExpenditure()" round> Add </button>
+            </ion-col>
+        </ion-row>
+    
+      </ion-grid>
+  
+    </div>
     
 
   </div>

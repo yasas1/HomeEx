@@ -45,8 +45,8 @@ export class DatabaseProvider {
       .then((db: SQLiteObject) => {
         this.databaseObj = db;
       }).then(() => {
-        this.createExpenditureTable(this.expenditureTable); // create pass Count Table
-        this.createCategoryTable(this.categoryTable);
+        this.createExpenditureTable(this.expenditureTable); // create expenditure Table
+        this.createCategoryTable(this.categoryTable); // create category Table
       })
       .catch(e => {
         this.alertViewer.presentAlert("Table Creating! ","Table Creating Error! ");
@@ -91,7 +91,7 @@ export class DatabaseProvider {
     
     this.databaseObj.executeSql(`
       INSERT INTO expenditure (date,category_id,description,amount) VALUES ('${date}','${category_id}','${description}','${amount}')
-    `, [])
+    `, [this.alertViewer.presentAlert("Insert Successfull! ","Expenditure inserting Successfull")])
       .catch(e => {
         this.alertViewer.presentAlert("Insert Error! ","Expenditure inserting error");
       });
@@ -162,6 +162,27 @@ export class DatabaseProvider {
 
             }
             return categories;
+          }
+          else{
+            return 0;
+          }
+        })
+        .catch(error => {
+          this.alertViewer.presentAlert("Categories Getting Error! ","Get error"+JSON.stringify(error));
+        }
+    );
+  }
+
+  getCategoriesCount() {
+
+    return this.databaseObj.executeSql(`
+      SELECT COUNT(*) as count FROM category 
+      `, [])
+        .then((data) => {
+
+          if( Number(data.rows.item(0).count) > 0){
+
+            return data;
           }
           else{
             return 0;
