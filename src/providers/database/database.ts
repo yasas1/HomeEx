@@ -91,7 +91,9 @@ export class DatabaseProvider {
     
     this.databaseObj.executeSql(`
       INSERT INTO expenditure (date,category_id,description,amount) VALUES ('${date}','${category_id}','${description}','${amount}')
-    `, [this.alertViewer.presentAlert("Insert Successfull! ","Expenditure inserting Successfull")])
+    `, []).then(()=>{
+        this.alertViewer.presentAlert("Expenditure","Added Successfully!")
+      })
       .catch(e => {
         this.alertViewer.presentAlert("Insert Error! ","Expenditure inserting error");
       });

@@ -69,11 +69,13 @@ export class AddAccountPage {
 
     this.database.insertExpenditure(date, category, description, amount);
 
+    this.expenditureForm.reset();
+
   }
 
   clearInputFields(){
 
-    this.expenditureForm.reset()
+    this.expenditureForm.reset();
   }
 
   getExpenditures(){
