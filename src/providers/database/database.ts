@@ -19,8 +19,9 @@ export class DatabaseProvider {
   private readonly database_name: string = "Home_Expenditure.db";
 
   /** Database tables names */
-  private readonly expenditureTable: string = "expenditure"
+  private readonly expenditureTable: string = "expenditure";
   private readonly categoryTable: string = "category";
+  private readonly memberTable: string = "member";
 
   constructor(
     //public http: HttpClient,
@@ -45,8 +46,9 @@ export class DatabaseProvider {
       .then((db: SQLiteObject) => {
         this.databaseObj = db;
       }).then(() => {
-        this.createExpenditureTable(this.expenditureTable); // create expenditure Table
-        this.createCategoryTable(this.categoryTable); // create category Table
+        this.createExpenditureTable(); // create expenditure Table
+        this.createCategoryTable(); // create category Table
+        this.createMemberTable(); // create Member Table
       })
       .catch(e => {
         this.alertViewer.presentAlert("Table Creating! ","Table Creating Error! ");
@@ -54,19 +56,29 @@ export class DatabaseProvider {
   }
 
   /**  Create Expenditure table  */
-  createExpenditureTable( table : string ) {
+  createExpenditureTable() {
     this.databaseObj.executeSql(`
-    CREATE TABLE IF NOT EXISTS ${table} (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, category_id INT, description TEXT, unnecessary INT DEFAULT 0, amount INT)
+    CREATE TABLE IF NOT EXISTS ${this.expenditureTable} (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, category_id INT, description TEXT, unnecessary INT DEFAULT  0, amount INT)
     `, [])
       .catch(e => {
         this.alertViewer.presentAlert("Table Creating! ","Expenditure Table Creating Error");
       });
   }
 
-  /**  Create Expenditure table  */
-  createCategoryTable( table : string ) {
+  /**  Create Category table  */
+  createCategoryTable() {
     this.databaseObj.executeSql(`
-    CREATE TABLE IF NOT EXISTS ${table} (id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT)
+    CREATE TABLE IF NOT EXISTS ${this.categoryTable} (id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT)
+    `, [])
+      .catch(e => {
+        this.alertViewer.presentAlert("Table Creating! ","Expenditure Table Creating Error");
+      });
+  }
+
+  /**  Create Member table  */
+  createMemberTable() {
+    this.databaseObj.executeSql(`
+    CREATE TABLE IF NOT EXISTS ${this.memberTable} (id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT)
     `, [])
       .catch(e => {
         this.alertViewer.presentAlert("Table Creating! ","Expenditure Table Creating Error");
@@ -99,7 +111,7 @@ export class DatabaseProvider {
       });
   }
 
-  /**  Insert expenditure  */
+  /**  Insert category  */
   insertCategory(name:string) {
     
     this.databaseObj.executeSql(`
@@ -107,6 +119,17 @@ export class DatabaseProvider {
     `, [])
       .catch(e => {
         this.alertViewer.presentAlert("Insert Error! ","Category inserting error");
+      });
+  }
+
+  /**  Insert member  */
+  insertMember(name:string) {
+    
+    this.databaseObj.executeSql(`
+      INSERT INTO member (name) VALUES ('${name}')
+    `, [])
+      .catch(e => {
+        this.alertViewer.presentAlert("Insert Error! ","Member inserting error");
       });
   }
 
@@ -144,7 +167,32 @@ export class DatabaseProvider {
     );
   }
 
-  /**  Get Categories by date */
+  /**  Update Expenditure by id */
+  updateExpenditureById(id:number,date:string,category_id:number,description:string,amount:number) {
+    this.databaseObj.executeSql(`
+      UPDATE expenditure
+      SET date = '${date}', category_id = '${category_id}', description = '${description}',amount = '${amount}'
+      WHERE id = '${id}'
+    `, [])
+      .catch(error => {
+        this.alertViewer.presentAlert("Updating Error! ","Expenditure updating error");
+      }
+    );
+  }
+
+  /**  Delete Expenditure by id */
+  deleteExpenditureById(id:number) {
+    this.databaseObj.executeSql(`
+      DELETE FROM expenditure 
+      WHERE id = '${id}';
+    `, [])
+      .catch(error => {
+        this.alertViewer.presentAlert("Deleting Error! ","Expenditure updating error");
+      }
+    );
+  }
+
+  /**  Get Categories */
   getCategories() {
 
     return this.databaseObj.executeSql(`
@@ -170,11 +218,12 @@ export class DatabaseProvider {
           }
         })
         .catch(error => {
-          this.alertViewer.presentAlert("Categories Getting Error! ","Get error"+JSON.stringify(error));
+          this.alertViewer.presentAlert("Categories Getting Error! ","Error"+JSON.stringify(error));
         }
     );
   }
 
+  /**  Get Categories count */
   getCategoriesCount() {
 
     return this.databaseObj.executeSql(`
@@ -191,33 +240,61 @@ export class DatabaseProvider {
           }
         })
         .catch(error => {
-          this.alertViewer.presentAlert("Categories Getting Error! ","Get error"+JSON.stringify(error));
+          this.alertViewer.presentAlert("Categories Getting Error! ","Error"+JSON.stringify(error));
         }
     );
   }
 
-  /**  Update Expenditure by id */
-  updateExpenditureById(id:number,date:string,category_id:number,description:string,amount:number) {
-    this.databaseObj.executeSql(`
-      UPDATE expenditure
-      SET date = '${date}', category_id = '${category_id}', description = '${description}',amount = '${amount}'
-      WHERE id = '${id}'
-    `, [])
-      .catch(error => {
-        this.alertViewer.presentAlert("Updating Error! ","Expenditure updating error");
-      }
+  /**  Get Members */
+  getMembers() {
+
+    return this.databaseObj.executeSql(`
+      SELECT * FROM member 
+      `, [])
+        .then((data) => {
+
+          let members= [];
+          if(data.rows.length > 0){
+
+            for(let i=0; i <data.rows.length; i++) {
+
+              members.push({
+                id:data.rows.item(i).id,
+                name:data.rows.item(i).name
+              });
+
+            }
+            return members;
+          }
+          else{
+            return 0;
+          }
+        })
+        .catch(error => {
+          this.alertViewer.presentAlert("Members Getting Error! ","Error"+JSON.stringify(error));
+        }
     );
   }
 
-  /**  Delete Expenditure by id */
-  deleteExpenditureById(id:number) {
-    this.databaseObj.executeSql(`
-      DELETE FROM expenditure 
-      WHERE id = '${id}';
-    `, [])
-      .catch(error => {
-        this.alertViewer.presentAlert("Deleting Error! ","Expenditure updating error");
-      }
+  /**  Get Members count */
+  getMembersCount() {
+
+    return this.databaseObj.executeSql(`
+      SELECT COUNT(*) as count FROM member 
+      `, [])
+        .then((data) => {
+
+          if( Number(data.rows.item(0).count) > 0){
+
+            return data;
+          }
+          else{
+            return 0;
+          }
+        })
+        .catch(error => {
+          this.alertViewer.presentAlert("Members Getting Error! ","Error"+JSON.stringify(error));
+        }
     );
   }
 
