@@ -24,7 +24,7 @@ import { AlertViewerProvider } from '../providers/alert-viewer/alert-viewer';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
   entryComponents: [

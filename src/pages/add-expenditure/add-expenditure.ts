@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatabaseProvider } from '../../providers/database/database';
 import { AlertViewerProvider } from '../../providers/alert-viewer/alert-viewer';
 import { Platform} from 'ionic-angular';
+
 @IonicPage()
 @Component({
   selector: 'page-add-expenditure',
@@ -39,9 +40,11 @@ export class AddAccountPage {
     private platform: Platform,
     private datePipe: DatePipe, 
     public formBuilder: FormBuilder,
-    public alertViewer: AlertViewerProvider
+    public alertViewer: AlertViewerProvider,
+    
     ) {
     this.today = this.transformDateFormat2(new Date());
+    this.date = this.transformDateFormat1(new Date());
 
     this.expenditureForm = formBuilder.group({
       'date': ['', Validators.compose([Validators.required])],
@@ -91,7 +94,7 @@ export class AddAccountPage {
   getExpenditures(){
 
     
-    this.alertViewer.presentAlert("Get Expenditures! ","checked "+this.unnecessary);
+    this.alertViewer.presentAlert("Get Expenditures! ","checked "+this.date);
     this.alertViewer.presentAlert("Get Expenditures! ","checked "+this.member);
     
 

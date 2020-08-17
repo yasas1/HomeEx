@@ -20,11 +20,18 @@
 
   <div [formGroup]="expenditureForm">
 
-    <ion-item>
+    <!-- <ion-item>
       <ion-label>Date</ion-label>
       <ion-datetime formControlName="date" displayFormat="MMMM DD YYYY" [(ngModel)]="date" name="date" max="{{maxDate}}"></ion-datetime>
     </ion-item>
     <br><br>
+ -->
+    <ion-item>
+      <ion-label>Date</ion-label>
+      <ion-input type='date' displayFormat="MMMM DD YYYY" formControlName="date" [(ngModel)]="date" name="date"> </ion-input>
+    </ion-item>
+    <br><br>
+    
 
     <ion-item>
       <ion-label>Member</ion-label>
