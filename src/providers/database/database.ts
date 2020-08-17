@@ -56,7 +56,7 @@ export class DatabaseProvider {
   /**  Create Expenditure table  */
   createExpenditureTable( table : string ) {
     this.databaseObj.executeSql(`
-    CREATE TABLE IF NOT EXISTS ${table} (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, category_id INT, description TEXT, amount INT)
+    CREATE TABLE IF NOT EXISTS ${table} (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, category_id INT, description TEXT, unnecessary INT DEFAULT 0, amount INT)
     `, [])
       .catch(e => {
         this.alertViewer.presentAlert("Table Creating! ","Expenditure Table Creating Error");
@@ -87,10 +87,10 @@ export class DatabaseProvider {
   }
 
   /**  Insert expenditure  */
-  insertExpenditure(date:string, category_id:number, description:string, amount:number ) {
+  insertExpenditure(date:string, category_id:number, description:string, unnecessary:number, amount:number ) {
     
     this.databaseObj.executeSql(`
-      INSERT INTO expenditure (date,category_id,description,amount) VALUES ('${date}','${category_id}','${description}','${amount}')
+      INSERT INTO expenditure (date,category_id,description,unnecessary,amount) VALUES ('${date}','${category_id}','${description}','${unnecessary}','${amount}')
     `, []).then(()=>{
         this.alertViewer.presentAlert("Expenditure","Added Successfully!")
       })

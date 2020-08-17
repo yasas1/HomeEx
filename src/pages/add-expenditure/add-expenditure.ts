@@ -25,6 +25,8 @@ export class AddAccountPage {
 
   public categories = [];
 
+  public unnecessary =0;
+
   expenditureForm: FormGroup;
 
   constructor(
@@ -43,6 +45,7 @@ export class AddAccountPage {
       'category': ['', Validators.compose([Validators.required])],
       'description': ['', Validators.compose([Validators.required])],
       'amount': ['', Validators.compose([Validators.required])],
+      'unnecessary': ['', Validators.compose([Validators.required])],
     });
 
   }
@@ -66,8 +69,9 @@ export class AddAccountPage {
     let category = this.category;
     let description = this.description;
     let amount = this.amount; 
+    let unnecessary = this.unnecessary;
 
-    this.database.insertExpenditure(date, category, description, amount);
+    this.database.insertExpenditure(date, category, description, unnecessary, amount);
 
     this.expenditureForm.reset();
 
@@ -79,6 +83,11 @@ export class AddAccountPage {
   }
 
   getExpenditures(){
+
+    
+    this.alertViewer.presentAlert("Get Expenditures! ","checked "+this.unnecessary);
+    
+
     this.database.getExpendituresByDate("2020-08-14").then((result) => { 
 
       let expenditures;
@@ -151,14 +160,13 @@ export class AddAccountPage {
 
   }
 
-
-
   /** insert default categories */
   insertCategories(){
     this.database.insertCategory("Food");
     this.database.insertCategory("Medicine");
-    this.database.insertCategory("Clothes");
+    this.database.insertCategory("Fashion");
     this.database.insertCategory("Bills");
+    this.database.insertCategory("Furnitures");
     this.database.insertCategory("Other");
   }
 

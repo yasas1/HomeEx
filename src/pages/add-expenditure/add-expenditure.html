@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title> NEW </ion-title>
+    <ion-title> NEW SPENDING </ion-title>
     <div text-end>
       <ion-note>{{today}}</ion-note>
     </div>
@@ -14,7 +14,7 @@
 <ion-content padding>
 
   <div text-center>
-    <ion-title>Add New Expenditure</ion-title>
+    <ion-title>+ Add Spending</ion-title>
   </div>
   <br><br>
 
@@ -38,6 +38,28 @@
       <ion-label>Description</ion-label>
       <ion-textarea formControlName="description" clearOnEdit="true" [(ngModel)]="description" name="description"></ion-textarea>
     </ion-item>
+    <br><br> 
+
+    <ion-grid>
+      <ion-row radio-group [(ngModel)]="unnecessary" formControlName="unnecessary">
+ 
+          <ion-col>
+            <ion-item>
+              <ion-label>Necessary</ion-label>
+              <ion-radio [value]="0" ></ion-radio>
+            </ion-item>
+          </ion-col>
+          
+          <ion-col>
+            <ion-item>
+              <ion-label>Unnecessary</ion-label>
+             <ion-radio [value]="1"></ion-radio>
+            </ion-item>
+          </ion-col>
+
+      </ion-row>
+    </ion-grid>
+      
     <br><br>
 
     <ion-item>
