@@ -58,7 +58,7 @@ export class DatabaseProvider {
   /**  Create Expenditure table  */
   createExpenditureTable() {
     this.databaseObj.executeSql(`
-    CREATE TABLE IF NOT EXISTS ${this.expenditureTable} (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, category_id INT, description TEXT, unnecessary INT DEFAULT  0, amount INT)
+    CREATE TABLE IF NOT EXISTS ${this.expenditureTable} (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, member_id INT, category_id INT, description TEXT, unnecessary INT DEFAULT  0, amount INT)
     `, [])
       .catch(e => {
         this.alertViewer.presentAlert("Table Creating! ","Expenditure Table Creating Error");
@@ -99,10 +99,10 @@ export class DatabaseProvider {
   }
 
   /**  Insert expenditure  */
-  insertExpenditure(date:string, category_id:number, description:string, unnecessary:number, amount:number ) {
+  insertExpenditure(date:string, member_id:number, category_id:number, description:string, unnecessary:number, amount:number ) {
     
     this.databaseObj.executeSql(`
-      INSERT INTO expenditure (date,category_id,description,unnecessary,amount) VALUES ('${date}','${category_id}','${description}','${unnecessary}','${amount}')
+      INSERT INTO expenditure (date,member_id,category_id,description,unnecessary,amount) VALUES ('${date}','${member_id}','${category_id}','${description}','${unnecessary}','${amount}')
     `, []).then(()=>{
         this.alertViewer.presentAlert("Expenditure","Added Successfully!")
       })
@@ -137,7 +137,11 @@ export class DatabaseProvider {
   getExpendituresByDate(date:string) {
 
     return this.databaseObj.executeSql(`
-      SELECT e.id, c.name, e.date, e.description, e.amount FROM expenditure e JOIN category c ON e.category_id = c.id WHERE e.date='${date}'
+      SELECT e.id, e.date, m.name as mem_name, c.name as cat_name, e.description, e.amount 
+      FROM expenditure e 
+      JOIN category c ON e.category_id = c.id
+      JOIN member m ON e.member_id = m.id
+      WHERE e.date='${date}'
       `, [])
         .then((data) => {
 
@@ -150,7 +154,8 @@ export class DatabaseProvider {
               expenditures.push({
                 id:data.rows.item(i).id,
                 date:data.rows.item(i).date,
-                category:data.rows.item(i).name,             
+                member:data.rows.item(i).mem_name,
+                category:data.rows.item(i).cat_name,             
                 description:data.rows.item(i).description,
                 amount:data.rows.item(i).amount
               });

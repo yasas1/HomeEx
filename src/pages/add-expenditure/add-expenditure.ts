@@ -14,6 +14,7 @@ import { Platform} from 'ionic-angular';
 export class AddAccountPage {
 
   public date:any;
+  public member:any;
   public category:any;
   public description:any;
   public amount:number;
@@ -24,6 +25,8 @@ export class AddAccountPage {
   public maxDate: any = this.transformDateFormat1(new Date());
 
   public categories = [];
+
+  public members = [];
 
   public unnecessary =0;
 
@@ -42,6 +45,7 @@ export class AddAccountPage {
 
     this.expenditureForm = formBuilder.group({
       'date': ['', Validators.compose([Validators.required])],
+      'member': ['', Validators.compose([Validators.required])],
       'category': ['', Validators.compose([Validators.required])],
       'description': ['', Validators.compose([Validators.required])],
       'amount': ['', Validators.compose([Validators.required])],
@@ -59,6 +63,7 @@ export class AddAccountPage {
         setTimeout(() =>
         {
           this.checkAndsetCategories();
+          this.checkAndsetMembers();
         }, 1000);
       });
   }
@@ -66,12 +71,13 @@ export class AddAccountPage {
   addExpenditure() {
 
     let date = this.date;
+    let member = this.member;
     let category = this.category;
     let description = this.description;
     let amount = this.amount; 
     let unnecessary = this.unnecessary;
 
-    this.database.insertExpenditure(date, category, description, unnecessary, amount);
+    this.database.insertExpenditure(date,member, category, description, unnecessary, amount);
 
     this.expenditureForm.reset();
 
@@ -86,9 +92,10 @@ export class AddAccountPage {
 
     
     this.alertViewer.presentAlert("Get Expenditures! ","checked "+this.unnecessary);
+    this.alertViewer.presentAlert("Get Expenditures! ","checked "+this.member);
     
 
-    this.database.getExpendituresByDate("2020-08-14").then((result) => { 
+    this.database.getExpendituresByDate("2020-08-17").then((result) => { 
 
       let expenditures;
 
@@ -100,9 +107,9 @@ export class AddAccountPage {
 
         if(expendituresLength > 0){
 
-          for(let i=0; i < expendituresLength; i++) {
+          for(let i=0; i < expendituresLength; i++) { 
 
-            this.alertViewer.presentAlert("Get Expenditures! ",expenditures[i].id+" "+expenditures[i].date+" "+expenditures[i].category+" "+expenditures[i].amount);
+            this.alertViewer.presentAlert("Get Expenditures! ",expenditures[i].id+" "+expenditures[i].date+" "+expenditures[i].member+" "+expenditures[i].category+" "+expenditures[i].amount);
           }
 
         }
@@ -168,6 +175,58 @@ export class AddAccountPage {
     this.database.insertCategory("Bills");
     this.database.insertCategory("Furnitures");
     this.database.insertCategory("Other");
+  }
+
+  /** check members count from db and set categories*/
+  checkAndsetMembers(){
+
+    this.database.getMembersCount().then((result) => {
+
+      if(result != 0){
+        this.setMembersInDropDown();
+      }
+      else{
+        this.insertMember();
+        this.setMembersInDropDown();
+      }
+
+    });
+
+  }
+
+  /** Get members from db and SET category drop down ngModel */
+  setMembersInDropDown(){
+
+    this.database.getMembers().then((result) => { 
+
+      let members;
+
+      if(result != 0){
+
+        members =  result;  
+
+        let membersLength = members.length;
+
+        if(membersLength > 0){
+
+          for(let i=0; i < membersLength; i++) {
+
+            this.members.push({
+              id:members[i].id,
+              name:members[i].name,
+            });
+       
+          }
+        }
+      }  
+    });
+
+  }
+
+  /** insert default Member */
+  insertMember(){
+    this.database.insertMember("Common");
+    this.database.insertMember("Yasas");
   }
 
   transformDateFormat1(date):string {

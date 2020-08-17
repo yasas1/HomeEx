@@ -27,6 +27,14 @@
     <br><br>
 
     <ion-item>
+      <ion-label>Member</ion-label>
+      <ion-select formControlName="member" [(ngModel)]="member" name="member">
+        <ion-option *ngFor="let member of members" [value]="member.id">{{member.name}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <br><br>
+
+    <ion-item>
       <ion-label>Category</ion-label>
       <ion-select formControlName="category" [(ngModel)]="category" name="category">
         <ion-option *ngFor="let categorie of categories" [value]="categorie.id">{{categorie.name}}</ion-option>
