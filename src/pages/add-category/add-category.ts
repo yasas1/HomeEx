@@ -46,12 +46,12 @@ export class AddCategoryPage {
 
   }
 
-  removeField(){
-
+  removeField(index){
+    this.dataArray.splice(index);
   }
 
   onSubmit(){
-    this.alertViewer.presentAlert("Categories! ","category "+this.dataArray.toString());
+    this.alertViewer.presentAlert("Categories! ","category "+this.dataArray[0].name);
   }
 
   clear(){
