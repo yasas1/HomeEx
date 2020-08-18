@@ -14,13 +14,15 @@ import { AddAccountPage } from '../pages/add-expenditure/add-expenditure';
 import { DatabaseProvider } from '../providers/database/database';
 import { NetworkProvider } from '../providers/network/network';
 import { AlertViewerProvider } from '../providers/alert-viewer/alert-viewer';
+import { AddCategoryPage } from '../pages/add-category/add-category';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     ListPage,
-    AddAccountPage
+    AddAccountPage,
+    AddCategoryPage
   ],
   imports: [
     BrowserModule,
@@ -31,7 +33,8 @@ import { AlertViewerProvider } from '../providers/alert-viewer/alert-viewer';
     MyApp,
     HomePage,
     ListPage,
-    AddAccountPage
+    AddAccountPage,
+    AddCategoryPage
   ],
   providers: [
     StatusBar,
