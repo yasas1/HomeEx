@@ -14,36 +14,24 @@
   </div>
   <br><br>
 
-  <form (ngSubmit)="onSubmit()">
+  <div >
 
-    <div *ngFor="let category of dataArray">
+    <ion-item *ngFor="let att of dataArray; let idx = index">
 
-      <ion-grid>
+      <ion-label color="primary">Name</ion-label>
+      <ion-input type="text"  text-right  [(ngModel)]="dataArray[idx].name"></ion-input>
+      
+      <button ion-button (click)="addField()" color="secondary" round> <span style="color: black;"> + </span> </button>
 
-        <ion-row>
-            <ion-col>
-
-              <ion-item>
-                <ion-label>Category Name</ion-label>
-                <ion-input type="text"  name="category" [(ngModel)]="category.name"></ion-input>
-              </ion-item>
-              
-            </ion-col>
-    
-            <ion-col>
-
-              <button ion-button (click)="addFrom()" color="secondary" round> + </button>
-              
-            </ion-col>
-        </ion-row>
-    
-      </ion-grid>
+    </ion-item>
 
   </div>
 
-  </form>
-
   <br><br> 
+
+  <div>
+    <button ion-button (click)="addField()" color="secondary" round> <span style="color: black;"> + </span> </button>
+  </div>
 
   <div text-center>
 
@@ -51,17 +39,16 @@
 
       <ion-row>
           <ion-col>
-            <button ion-button  round outline> Clear </button> 
+            <button ion-button (click)="clear()"  round outline> Clear </button> 
           </ion-col>
   
           <ion-col>
-            <button ion-button color="secondary" round> Submit </button>
+            <button ion-button color="secondary" (click)="onSubmit()" round> Submit </button>
           </ion-col>
       </ion-row>
   
     </ion-grid>
 
   </div>
-  
 
 </ion-content>

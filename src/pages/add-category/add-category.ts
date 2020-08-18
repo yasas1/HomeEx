@@ -2,13 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Category } from '../../models/Category';
 import { AlertViewerProvider } from '../../providers/alert-viewer/alert-viewer';
-
-/**
- * Generated class for the AddCategoryPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @IonicPage()
 @Component({
@@ -17,30 +11,54 @@ import { AlertViewerProvider } from '../../providers/alert-viewer/alert-viewer';
 })
 export class AddCategoryPage {
 
-  category = new Category();
+  public category = new Category();
 
-  dataArray = [];
+  public dataArray:any=[];
+
+  categoryForm: FormGroup;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    public formBuilder: FormBuilder,
     public alertViewer: AlertViewerProvider
-     ) {
+    ){
+
+    this.category = new Category();
+    this.category.name="";
+    this.dataArray.push(this.category);
+
+    this.categoryForm = formBuilder.group({
+      'category': ['', Validators.compose([Validators.required])]
+    });
+
   }
 
   ionViewDidLoad() {
+    
+  }
+
+  addField(){
+
+    this.category = new Category();
+    this.category.name="";
     this.dataArray.push(this.category);
+
+  }
+
+  removeField(){
+
   }
 
   onSubmit(){
-
+    this.alertViewer.presentAlert("Categories! ","category "+this.dataArray.toString());
   }
 
-  addFrom(){
+  clear(){
 
-    this.category = new Category();
-    this.dataArray.push(this.category);
-
+    this.categoryForm.reset();
   }
+
+  
 
 }
