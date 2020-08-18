@@ -14,10 +14,35 @@
   </div>
   <br><br>
 
-  <ion-item>
-    <ion-label>Category Name</ion-label>
-    <ion-textarea clearOnEdit="true"  name="category"></ion-textarea>
-  </ion-item>
+  <form (ngSubmit)="onSubmit()">
+
+    <div *ngFor="let category of dataArray">
+
+      <ion-grid>
+
+        <ion-row>
+            <ion-col>
+
+              <ion-item>
+                <ion-label>Category Name</ion-label>
+                <ion-input type="text"  name="category" [(ngModel)]="category.name"></ion-input>
+              </ion-item>
+              
+            </ion-col>
+    
+            <ion-col>
+
+              <button ion-button (click)="addFrom()" color="secondary" round> + </button>
+              
+            </ion-col>
+        </ion-row>
+    
+      </ion-grid>
+
+  </div>
+
+  </form>
+
   <br><br> 
 
   <div text-center>

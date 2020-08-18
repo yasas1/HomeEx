@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Category } from '../../models/Category';
+import { AlertViewerProvider } from '../../providers/alert-viewer/alert-viewer';
 
 /**
  * Generated class for the AddCategoryPage page.
@@ -15,11 +17,30 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class AddCategoryPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  category = new Category();
+
+  dataArray = [];
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public alertViewer: AlertViewerProvider
+     ) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad AddCategoryPage');
+    this.dataArray.push(this.category);
+  }
+
+  onSubmit(){
+
+  }
+
+  addFrom(){
+
+    this.category = new Category();
+    this.dataArray.push(this.category);
+
   }
 
 }
