@@ -60,7 +60,7 @@ export class AddCategoryPage {
   }
 
   removeField(index){
-    
+
     this.dataArray.splice(index);
 
     let size = this.dataArray.length;
@@ -81,22 +81,24 @@ export class AddCategoryPage {
 
       this.database.checkCategoryByName(this.dataArray[i].name).then((result) => { 
 
-        if(result == 0){
-          this.database.insertCategory(this.dataArray[i].name);
+        if(result == 1){
+          this.alertViewer.presentAlert("Categories! ",this.dataArray[i].name +" is already here!");
         }
         else{
-          this.alertViewer.presentAlert("Categories! ","Category \""+this.dataArray[i].name+"\""+ "is already heare!");
+          this.database.insertCategory(this.dataArray[i].name);
         }
-
+        
       });
 
-      
     }
 
-    this.dataArray =[];
-    this.category = new Category();
-    this.category.name="";
-    this.dataArray.push(this.category);
+    setTimeout(() =>
+    {
+      this.dataArray =[];
+      this.category = new Category();
+      this.category.name="";
+      this.dataArray.push(this.category);
+    }, 4000);
 
   }
 

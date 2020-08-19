@@ -202,77 +202,68 @@ export class DatabaseProvider {
   }
 
   /**  Get All Categories */
-  getAllCategories() {
+  async getAllCategories() {
 
-    return this.databaseObj.executeSql(`
+    try {
+      const data = await this.databaseObj.executeSql(`
       SELECT * FROM category 
-      `, [])
-        .then((data) => {
+      `, []);
+      let categories = [];
+      if (data.rows.length > 0) {
 
-          let categories= [];
-          if(data.rows.length > 0){
+        for (let i = 0; i < data.rows.length; i++) {
 
-            for(let i=0; i <data.rows.length; i++) {
+          categories.push({
+            id: data.rows.item(i).id,
+            name: data.rows.item(i).name
+          });
 
-              categories.push({
-                id:data.rows.item(i).id,
-                name:data.rows.item(i).name
-              });
-
-            }
-            return categories;
-          }
-          else{
-            return 0;
-          }
-        })
-        .catch(error => {
-          this.alertViewer.presentAlert("Categories Getting Error! ","Error"+JSON.stringify(error));
         }
-    );
+        return categories;
+      }
+      else {
+        return 0;
+      }
+    } catch (error) {
+      this.alertViewer.presentAlert("Categories Getting Error! ", "Error" + JSON.stringify(error));
+    }
   }
 
   /**  Get All Categories */
-  checkCategoryByName(name:string) {
+  async checkCategoryByName(name:string) {
 
-    return this.databaseObj.executeSql(`
+    try {
+      const data = await this.databaseObj.executeSql(`
       SELECT * FROM category WHERE name = '${name}';
-      `, [])
-        .then((data) => {
-
-          if(data.rows.length > 0){
-            return 1;
-          }
-          else{
-            return 0;
-          }
-        })
-        .catch(error => {
-          this.alertViewer.presentAlert("Categories Getting Error! ","Error"+JSON.stringify(error));
-        }
-    );
+      `, []);
+      if (data.rows.length > 0) {
+        return 1;
+      }
+      else {
+        return 0;
+      }
+    } catch (error) {
+      this.alertViewer.presentAlert("Categories Getting Error! ", "Error" + JSON.stringify(error));
+    }
   }
 
   /**  Get Categories count */
-  getCategoriesCount() {
+  async getCategoriesCount() {
 
-    return this.databaseObj.executeSql(`
+    try {
+      const data = await this.databaseObj.executeSql(`
       SELECT COUNT(*) as count FROM category 
-      `, [])
-        .then((data) => {
+      `, []);
+      if (Number(data.rows.item(0).count) > 0) {
 
-          if( Number(data.rows.item(0).count) > 0){
-
-            return data;
-          }
-          else{
-            return 0;
-          }
-        })
-        .catch(error => {
-          this.alertViewer.presentAlert("Categories Getting Error! ","Error"+JSON.stringify(error));
-        }
-    );
+        return data;
+      }
+      else {
+        return 0;
+      }
+    } catch (error) {
+      this.alertViewer.presentAlert("Categories Getting Error! ", "Error" + JSON.stringify(error));
+    }
   }
 
   /**  Delete Category by name */
@@ -307,56 +298,50 @@ export class DatabaseProvider {
   }
 
   /**  Get Members */
-  getMembers() {
+  async getMembers() {
 
-    return this.databaseObj.executeSql(`
+    try {
+      const data = await this.databaseObj.executeSql(`
       SELECT * FROM member 
-      `, [])
-        .then((data) => {
+      `, []);
+      let members = [];
+      if (data.rows.length > 0) {
 
-          let members= [];
-          if(data.rows.length > 0){
+        for (let i = 0; i < data.rows.length; i++) {
 
-            for(let i=0; i <data.rows.length; i++) {
+          members.push({
+            id: data.rows.item(i).id,
+            name: data.rows.item(i).name
+          });
 
-              members.push({
-                id:data.rows.item(i).id,
-                name:data.rows.item(i).name
-              });
-
-            }
-            return members;
-          }
-          else{
-            return 0;
-          }
-        })
-        .catch(error => {
-          this.alertViewer.presentAlert("Members Getting Error! ","Error"+JSON.stringify(error));
         }
-    );
+        return members;
+      }
+      else {
+        return 0;
+      }
+    } catch (error) {
+      this.alertViewer.presentAlert("Members Getting Error! ", "Error" + JSON.stringify(error));
+    }
   }
 
   /**  Get Members count */
-  getMembersCount() {
+  async getMembersCount() {
 
-    return this.databaseObj.executeSql(`
+    try {
+      const data = await this.databaseObj.executeSql(`
       SELECT COUNT(*) as count FROM member 
-      `, [])
-        .then((data) => {
+      `, []);
+      if (Number(data.rows.item(0).count) > 0) {
 
-          if( Number(data.rows.item(0).count) > 0){
-
-            return data;
-          }
-          else{
-            return 0;
-          }
-        })
-        .catch(error => {
-          this.alertViewer.presentAlert("Members Getting Error! ","Error"+JSON.stringify(error));
-        }
-    );
+        return data;
+      }
+      else {
+        return 0;
+      }
+    } catch (error) {
+      this.alertViewer.presentAlert("Members Getting Error! ", "Error" + JSON.stringify(error));
+    }
   }
 
 
