@@ -98,6 +98,13 @@ export class DatabaseProvider {
       });
   }
 
+  /**
+   * *************************************************
+   * EXPENDITURE
+   * 
+   * 
+   */
+
   /**  Insert expenditure  */
   insertExpenditure(date:string, member_id:number, category_id:number, description:string, unnecessary:number, amount:number ) {
     
@@ -108,28 +115,6 @@ export class DatabaseProvider {
       })
       .catch(e => {
         this.alertViewer.presentAlert("Insert Error! ","Expenditure inserting error");
-      });
-  }
-
-  /**  Insert category  */
-  insertCategory(name:string) {
-    
-    this.databaseObj.executeSql(`
-      INSERT INTO category (name) VALUES ('${name}')
-    `, [])
-      .catch(e => {
-        this.alertViewer.presentAlert("Insert Error! ","Category inserting error");
-      });
-  }
-
-  /**  Insert member  */
-  insertMember(name:string) {
-    
-    this.databaseObj.executeSql(`
-      INSERT INTO member (name) VALUES ('${name}')
-    `, [])
-      .catch(e => {
-        this.alertViewer.presentAlert("Insert Error! ","Member inserting error");
       });
   }
 
@@ -197,6 +182,25 @@ export class DatabaseProvider {
     );
   }
 
+  /**
+   * *************************************************
+   * CATEGORY
+   * 
+   * 
+   */
+
+  /**  Insert category  */
+  insertCategory(name:string) {
+    
+    this.databaseObj.executeSql(`
+      INSERT INTO category (name) VALUES ('${name}')
+    `, []).then(()=>{
+      this.alertViewer.presentAlert("Categories","Added Successfully!")
+    }).catch(e => {
+        this.alertViewer.presentAlert("Insert Error! ","Category inserting error");
+      });
+  }
+
   /**  Get Categories */
   getCategories() {
 
@@ -248,6 +252,37 @@ export class DatabaseProvider {
           this.alertViewer.presentAlert("Categories Getting Error! ","Error"+JSON.stringify(error));
         }
     );
+  }
+
+  /**  Delete Category by name */
+  deleteCategoryeByName(name:string) {
+    this.databaseObj.executeSql(`
+      DELETE FROM category 
+      WHERE name = '${name}';
+    `, []).then(()=>{
+        this.alertViewer.presentAlert("Categories","Deleted Successfully!")
+      }).catch(error => {
+        this.alertViewer.presentAlert("Deleting Error! ","Expenditure updating error");
+      }
+    );
+  }
+
+  /**
+   * *************************************************
+   * MEMBER
+   * 
+   * 
+   */
+
+  /**  Insert member  */
+  insertMember(name:string) {
+    
+    this.databaseObj.executeSql(`
+      INSERT INTO member (name) VALUES ('${name}')
+    `, [])
+      .catch(e => {
+        this.alertViewer.presentAlert("Insert Error! ","Member inserting error");
+      });
   }
 
   /**  Get Members */

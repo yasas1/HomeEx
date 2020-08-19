@@ -54,14 +54,10 @@ export class AddCategoryPage {
 
   onSubmit(){
 
-    /* this.alertViewer.presentAlert("Categories! ","category "+this.dataArray[0].name);
-    for(var i = 0; i < this.dataArray.length; i++) { 
+    let size = this.dataArray.length;
+    for(var i = 0; i < size; i++) { 
       this.database.insertCategory(this.dataArray[i].name);
-    } */
-
-    this.dataArray.forEach(function (value) {
-      this.database.insertCategory(value.name);
-    }); 
+    }
 
     this.dataArray =[];
     this.category = new Category();
