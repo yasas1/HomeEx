@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Category } from '../../models/Category';
 import { AlertViewerProvider } from '../../providers/alert-viewer/alert-viewer';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DatabaseProvider } from '../../providers/database/database';
 
 @IonicPage()
 @Component({
@@ -20,6 +21,7 @@ export class AddCategoryPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private database: DatabaseProvider,
     public formBuilder: FormBuilder,
     public alertViewer: AlertViewerProvider
     ){
@@ -51,7 +53,46 @@ export class AddCategoryPage {
   }
 
   onSubmit(){
-    this.alertViewer.presentAlert("Categories! ","category "+this.dataArray[0].name);
+
+    /* this.alertViewer.presentAlert("Categories! ","category "+this.dataArray[0].name);
+    for(var i = 0; i < this.dataArray.length; i++) { 
+      this.database.insertCategory(this.dataArray[i].name);
+    } */
+
+    this.dataArray.forEach(function (value) {
+      this.database.insertCategory(value.name);
+    }); 
+
+    this.dataArray =[];
+    this.category = new Category();
+    this.category.name="";
+    this.dataArray.push(this.category);
+
+  }
+
+  getCategories(){
+
+    this.database.getCategories().then((result) => { 
+
+      let categories;
+
+      if(result != 0){
+
+        categories =  result;  
+
+        let categoriesLength = categories.length;
+
+        if(categoriesLength > 0){
+
+          for(let i=0; i < categoriesLength; i++) {
+
+            this.alertViewer.presentAlert("Categories! ","category "+categories[i].name);
+       
+          }
+        }
+      }  
+    });
+
   }
 
   clear(){

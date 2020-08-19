@@ -174,10 +174,10 @@ export class AddAccountPage {
   insertCategories(){
     this.database.insertCategory("Food");
     this.database.insertCategory("Medicine");
-    this.database.insertCategory("Fashion");
+    /* this.database.insertCategory("Fashion");
     this.database.insertCategory("Bills");
     this.database.insertCategory("Furnitures");
-    this.database.insertCategory("Other");
+    this.database.insertCategory("Other"); */
   }
 
   /** check members count from db and set categories*/
