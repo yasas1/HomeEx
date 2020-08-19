@@ -201,8 +201,8 @@ export class DatabaseProvider {
       });
   }
 
-  /**  Get Categories */
-  getCategories() {
+  /**  Get All Categories */
+  getAllCategories() {
 
     return this.databaseObj.executeSql(`
       SELECT * FROM category 
@@ -221,6 +221,27 @@ export class DatabaseProvider {
 
             }
             return categories;
+          }
+          else{
+            return 0;
+          }
+        })
+        .catch(error => {
+          this.alertViewer.presentAlert("Categories Getting Error! ","Error"+JSON.stringify(error));
+        }
+    );
+  }
+
+  /**  Get All Categories */
+  checkCategoryByName(name:string) {
+
+    return this.databaseObj.executeSql(`
+      SELECT * FROM category WHERE name = '${name}';
+      `, [])
+        .then((data) => {
+
+          if(data.rows.length > 0){
+            return 1;
           }
           else{
             return 0;

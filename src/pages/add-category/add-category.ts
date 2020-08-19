@@ -16,6 +16,8 @@ export class AddCategoryPage {
 
   public dataArray:any=[];
 
+  public canAddField:boolean = true;
+
   categoryForm: FormGroup;
 
   constructor(
@@ -46,17 +48,49 @@ export class AddCategoryPage {
     this.category.name="";
     this.dataArray.push(this.category);
 
+    let size = this.dataArray.length;
+
+    if(size >=5){
+      this.canAddField = false;
+    }
+    else{
+      this.canAddField = true;
+    }
+
   }
 
   removeField(index){
+    
     this.dataArray.splice(index);
+
+    let size = this.dataArray.length;
+
+    if(size >=5){
+      this.canAddField = false;
+    }
+    else{
+      this.canAddField = true;
+    }
   }
 
   onSubmit(){
 
     let size = this.dataArray.length;
+
     for(var i = 0; i < size; i++) { 
-      this.database.insertCategory(this.dataArray[i].name);
+
+      this.database.checkCategoryByName(this.dataArray[i].name).then((result) => { 
+
+        if(result == 0){
+          this.database.insertCategory(this.dataArray[i].name);
+        }
+        else{
+          this.alertViewer.presentAlert("Categories! ","Category \""+this.dataArray[i].name+"\""+ "is already heare!");
+        }
+
+      });
+
+      
     }
 
     this.dataArray =[];
@@ -68,7 +102,7 @@ export class AddCategoryPage {
 
   getCategories(){
 
-    this.database.getCategories().then((result) => { 
+    this.database.getAllCategories().then((result) => { 
 
       let categories;
 

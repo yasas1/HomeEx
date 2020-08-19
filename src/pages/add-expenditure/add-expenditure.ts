@@ -144,7 +144,7 @@ export class AddAccountPage {
   /** Get categories from db and SET category drop down ngModel */
   setCategoriesInDropDown(){
 
-    this.database.getCategories().then((result) => { 
+    this.database.getAllCategories().then((result) => { 
 
       let categories;
 
