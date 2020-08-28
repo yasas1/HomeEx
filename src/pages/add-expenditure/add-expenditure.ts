@@ -125,7 +125,7 @@ export class AddAccountPage {
   }
 
   /** check categories count from db and set categories*/
-  checkAndsetCategories(){
+  private checkAndsetCategories(){
 
     this.database.getCategoriesCount().then((result) => {
 
@@ -142,7 +142,7 @@ export class AddAccountPage {
   }
 
   /** Get categories from db and SET category drop down ngModel */
-  setCategoriesInDropDown(){
+  private setCategoriesInDropDown(){
 
     this.database.getAllCategories().then((result) => { 
 
@@ -171,7 +171,7 @@ export class AddAccountPage {
   }
 
   /** insert default categories */
-  insertCategories(){
+  private insertCategories(){
     this.database.insertCategory("Food");
     this.database.insertCategory("Medicine");
     /* this.database.insertCategory("Fashion");
@@ -181,7 +181,7 @@ export class AddAccountPage {
   }
 
   /** check members count from db and set categories*/
-  checkAndsetMembers(){
+  private checkAndsetMembers(){
 
     this.database.getMembersCount().then((result) => {
 
@@ -198,7 +198,7 @@ export class AddAccountPage {
   }
 
   /** Get members from db and SET category drop down ngModel */
-  setMembersInDropDown(){
+  private setMembersInDropDown(){
 
     this.database.getMembers().then((result) => { 
 
@@ -227,16 +227,16 @@ export class AddAccountPage {
   }
 
   /** insert default Member */
-  insertMember(){
+  private insertMember(){
     this.database.insertMember("Common");
     this.database.insertMember("Yasas");
   }
 
-  transformDateFormat1(date):string {
+  private transformDateFormat1(date):string {
     return this.datePipe.transform(date, 'yyyy-MM-dd'); 
   }
 
-  transformDateFormat2(date):string {
+  private transformDateFormat2(date):string {
     return this.datePipe.transform(date, 'MMMM dd yyyy'); 
   }
 

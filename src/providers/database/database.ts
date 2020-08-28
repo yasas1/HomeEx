@@ -6,8 +6,10 @@ import { AlertViewerProvider } from '../alert-viewer/alert-viewer';
 
 
 /*
-  @author Yasas Ranawaka
-  @date Aug 11 2020
+ *
+ * @author Yasas Ranawaka
+ * @date Aug 11 2020
+ *  
 */
 
 @Injectable()
@@ -194,9 +196,8 @@ export class DatabaseProvider {
     
     this.databaseObj.executeSql(`
       INSERT INTO category (name) VALUES ('${name}')
-    `, []).then(()=>{
-      this.alertViewer.presentAlert("Categories","Added Successfully!")
-    }).catch(e => {
+    `, [])
+    .catch(e => {
         this.alertViewer.presentAlert("Insert Error! ","Category inserting error");
       });
   }

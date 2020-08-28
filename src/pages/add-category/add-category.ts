@@ -5,6 +5,13 @@ import { AlertViewerProvider } from '../../providers/alert-viewer/alert-viewer';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatabaseProvider } from '../../providers/database/database';
 
+/*
+ *
+ * @author Yasas Ranawaka
+ * 
+ *  Categories work
+*/
+
 @IonicPage()
 @Component({
   selector: 'page-add-category',
@@ -77,28 +84,52 @@ export class AddCategoryPage {
 
     let size = this.dataArray.length;
 
-    for(var i = 0; i < size; i++) { 
+    if(size > 0){
 
-      this.database.checkCategoryByName(this.dataArray[i].name).then((result) => { 
+      for(var i = 0; i < size; i++) { 
 
-        if(result == 1){
-          this.alertViewer.presentAlert("Categories! ",this.dataArray[i].name +" is already here!");
-        }
-        else{
-          this.database.insertCategory(this.dataArray[i].name);
+        let categoryName = this.dataArray[i].name;
+  
+        if(categoryName != ""){
+          
+          this.database.checkCategoryByName(categoryName).then((result) => { 
+  
+            if(result != 1){
+    
+              try{         
+
+                this.database.insertCategory(categoryName);
+
+              }catch(error){
+
+                this.alertViewer.presentAlert("Insert Error! ",error);
+              }
+              
+            }
+            else{
+              this.alertViewer.presentAlert("Category Here! ", ` Category "${categoryName}" is already here `);
+            }
+
+          }).catch(error => {
+            this.alertViewer.presentAlert("Checking Error! ", error);
+          });
+
         }
         
-      });
+      }
+  
+      setTimeout(() =>
+      {
+        this.dataArray =[];
+        this.category = new Category();
+        this.category.name="";
+        this.dataArray.push(this.category);
+      }, size*500);
 
     }
-
-    setTimeout(() =>
-    {
-      this.dataArray =[];
-      this.category = new Category();
-      this.category.name="";
-      this.dataArray.push(this.category);
-    }, 4000);
+    else{
+      this.alertViewer.presentAlert("Category! ","Name of a category should be entered ");
+    }
 
   }
 
