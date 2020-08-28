@@ -22,6 +22,8 @@ export class AlertViewerProvider {
       buttons: ['Dismiss']
     });
     alert.present();
-}
+
+    setTimeout(()=>alert.dismiss(),3000);
+  }
 
 }

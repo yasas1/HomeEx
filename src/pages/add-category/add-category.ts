@@ -57,7 +57,7 @@ export class AddCategoryPage {
 
     let size = this.dataArray.length;
 
-    if(size >=5){
+    if(size >= 6){
       this.canAddField = false;
     }
     else{
@@ -72,7 +72,7 @@ export class AddCategoryPage {
 
     let size = this.dataArray.length;
 
-    if(size >=5){
+    if(size >=6){
       this.canAddField = false;
     }
     else{
@@ -84,6 +84,8 @@ export class AddCategoryPage {
 
     let size = this.dataArray.length;
 
+    let atleastOneAdded = false;
+
     if(size > 0){
 
       for(var i = 0; i < size; i++) { 
@@ -91,7 +93,7 @@ export class AddCategoryPage {
         let categoryName = this.dataArray[i].name;
   
         if(categoryName != ""){
-          
+
           this.database.checkCategoryByName(categoryName).then((result) => { 
   
             if(result != 1){
@@ -99,6 +101,8 @@ export class AddCategoryPage {
               try{         
 
                 this.database.insertCategory(categoryName);
+
+                atleastOneAdded = true;
 
               }catch(error){
 
@@ -117,6 +121,13 @@ export class AddCategoryPage {
         }
         
       }
+
+      if(atleastOneAdded){
+        this.alertViewer.presentAlert("Category Adding! ", "Successfully Added!");
+      }
+      else{
+        this.alertViewer.presentAlert("Category! ","Name of a category should be entered ");
+      }
   
       setTimeout(() =>
       {
@@ -127,9 +138,7 @@ export class AddCategoryPage {
       }, size*500);
 
     }
-    else{
-      this.alertViewer.presentAlert("Category! ","Name of a category should be entered ");
-    }
+    
 
   }
 
@@ -160,7 +169,11 @@ export class AddCategoryPage {
 
   clear(){
 
-    this.categoryForm.reset();
+    this.dataArray =[];
+    this.category = new Category();
+    this.category.name="";
+    this.dataArray.push(this.category);
+
   }
 
   

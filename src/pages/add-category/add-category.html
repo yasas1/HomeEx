@@ -30,7 +30,7 @@
         </ion-col>
   
         <ion-col col-2>
-          <button ion-button *ngIf="idx!=0" (click)="removeField(idx)"  color="danger" round> <span style="color: black;"> - </span> </button>
+          <button ion-button *ngIf="idx!=0" (click)="removeField(idx)"  color="danger" round icon-only> <ion-icon name="remove"></ion-icon> </button>
         </ion-col>
 
       </ion-row>
@@ -42,7 +42,7 @@
   <br> 
 
   <div>
-    <button ion-button [disabled]="!canAddField" (click)="addField()" color="secondary" round> <span style="color: black;"> + </span> </button>
+    <button ion-button [disabled]="!canAddField" (click)="addField()" color="secondary" round icon-only> <ion-icon name="add"></ion-icon>  </button>
   </div>
 
   <div text-center>
@@ -51,15 +51,21 @@
 
       <ion-row>
           <ion-col>
-            <button ion-button (click)="getCategories()"  round outline> getCategories </button> 
+            <button ion-button color="light" (click)="clear()"  round > CLEAR </button> 
           </ion-col>
   
           <ion-col>
-            <button ion-button color="secondary" (click)="onSubmit()" round> Submit </button>
+            <button ion-button (click)="onSubmit()" round > SAVE </button>
           </ion-col>
       </ion-row>
   
     </ion-grid>
+
+  </div> 
+
+  <div text-center>
+
+    <button ion-button color="secondary" (click)="getCategories()"  round icon-start> <ion-icon name="eye"></ion-icon> View Categories </button>
 
   </div>
 
