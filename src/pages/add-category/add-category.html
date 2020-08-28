@@ -69,4 +69,50 @@
 
   </div>
 
+  <div text-center>
+
+    <ion-list> 
+
+      <div ion-item *ngFor="let category of categoryList let idx = index" >
+
+        <ion-grid>
+
+          <ion-row>
+            <ion-col col-2>
+
+              <div icon-start>
+                <ion-icon name="star-outline"></ion-icon>
+                {{idx + 1}}
+              </div>
+                             
+            </ion-col>
+    
+            <ion-col col-6>
+
+                {{category.name}}
+              
+            </ion-col>
+
+            <ion-col col-2>
+
+              <button ion-button  style="background-color: yellow;" (click)="editCategory(category.id)" round icon-only> <ion-icon name="create"></ion-icon> </button>
+            
+          </ion-col>
+      
+            <ion-col col-2>
+
+                <button ion-button  color="danger" (click)="deleteCategory(category.id)" round icon-only> <ion-icon name="trash"></ion-icon> </button>
+              
+            </ion-col>
+    
+          </ion-row>
+      
+        </ion-grid>
+        
+      </div>
+
+    </ion-list>
+
+  </div>
+
 </ion-content>

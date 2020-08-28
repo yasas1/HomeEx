@@ -23,6 +23,8 @@ export class AddCategoryPage {
 
   public dataArray:any=[];
 
+  public categoryList: Array<{id: number, name: string}>;
+
   public canAddField:boolean = true;
 
   categoryForm: FormGroup;
@@ -156,24 +158,40 @@ export class AddCategoryPage {
 
         if(categoriesLength > 0){
 
+          this.categoryList = [];
+
           for(let i=0; i < categoriesLength; i++) {
 
             this.alertViewer.presentAlert("Categories! ","category "+categories[i].name);
+
+            this.categoryList.push({
+              id: categories[i].id,
+              name: categories[i].name
+            });
        
           }
+
         }
       }  
     });
 
   }
 
-  clear(){
+  clear(){ 
 
     this.dataArray =[];
     this.category = new Category();
     this.category.name="";
     this.dataArray.push(this.category);
 
+  }
+
+  editCategory(id){
+    this.alertViewer.presentAlert("Edit! ","Edit Button "+id);
+  }
+
+  deleteCategory(id){
+    this.alertViewer.presentAlert("Delete! ","Delete Button "+id);
   }
 
   
