@@ -227,8 +227,7 @@ export class AddAccountPage {
 
   /** insert default Member */
   private insertMember(){
-    this.database.insertMember("Common");
-    this.database.insertMember("Yasas");
+    this.database.insertMember("Family");
   }
 
   private transformDateFormat1(date):string {

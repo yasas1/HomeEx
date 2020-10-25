@@ -112,15 +112,15 @@ export class AddCategoryPage {
   onSubmit(){
 
     let size = this.dataArray.length;
-
     let atleastOneAdded = false;
-    let alreadyHere = false;
+    let allNull = true;
 
     if(size > 0){
 
       for(var i = 0; i < size; i++) { 
         let categoryName = this.dataArray[i].name;  
         if(categoryName != ""){
+          allNull = false;
           this.database.checkCategoryByName(categoryName).then((result) => { 
             if(result != 1){
               try{         
@@ -131,14 +131,12 @@ export class AddCategoryPage {
               }             
             }
             else{
-              alreadyHere = true;
               this.alertViewer.presentAlert("Category Here! ", ` Category "${categoryName}" is already here `);
             }
           }).catch(error => {
             //this.alertViewer.presentAlert("Checking Error! ", error);
           });
         }
-        
       }
 
       if(atleastOneAdded){
@@ -148,7 +146,7 @@ export class AddCategoryPage {
           this.getCategories();
         }, 1000);
       }
-      else if(!alreadyHere){
+      else if(allNull){
         this.alertViewer.presentAlert("Category! ","Name of a category should be entered ");
       }
   
@@ -159,10 +157,8 @@ export class AddCategoryPage {
         this.category.name="";
         this.dataArray.push(this.category);
       }, size*500);
-
+      
     }
-    
-
   }
 
   getCategories(){
@@ -220,19 +216,14 @@ export class AddCategoryPage {
           handler: data => {
 
             this.database.checkCategoryByName(data.category).then((result) => { 
-  
               if(result != 1){      
                 this.database.updateCategoryById(parseInt(id),data.category);                    
               }
               else{
                 this.alertViewer.presentAlert("Category Here! ", ` Category "${data.category}" is already here `);
               }
-  
-            }).catch(error => {
-              
-            });
-
-            
+            }).catch(error => {       
+            });   
             setTimeout(() =>
             {
               this.getCategories();
