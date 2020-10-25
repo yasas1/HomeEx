@@ -64,6 +64,7 @@ export class AddCategoryPage {
     
   }
 
+   /**  Add a new input field for category */
   addField(){
 
     this.category = new Category();
@@ -72,7 +73,7 @@ export class AddCategoryPage {
 
     let size = this.dataArray.length;
 
-    if(size >= 6){
+    if(size >= 5){
       this.canAddField = false;
     }
     else{
@@ -81,6 +82,7 @@ export class AddCategoryPage {
 
   }
 
+  /**  remove this input field  */
   removeField(index){
 
     this.dataArray.splice(index);
@@ -95,54 +97,58 @@ export class AddCategoryPage {
     }
   }
 
+  /**  Clear/Remove all additional Category input fields  */
+  clear(){ 
+
+    this.dataArray =[];
+    this.category = new Category();
+    this.category.name="";
+    this.dataArray.push(this.category);
+    this.canAddField = true;
+
+  }
+
+
   onSubmit(){
 
     let size = this.dataArray.length;
 
     let atleastOneAdded = false;
+    let alreadyHere = false;
 
     if(size > 0){
 
       for(var i = 0; i < size; i++) { 
-
-        let categoryName = this.dataArray[i].name;
-  
+        let categoryName = this.dataArray[i].name;  
         if(categoryName != ""){
-
           this.database.checkCategoryByName(categoryName).then((result) => { 
-  
             if(result != 1){
-    
               try{         
-
                 this.database.insertCategory(categoryName);
-
                 atleastOneAdded = true;
-
               }catch(error){
-
-                this.alertViewer.presentAlert("Insert Error! ",error);
-              }
-              
+                //this.alertViewer.presentAlert("Insert Error! ",error);
+              }             
             }
             else{
+              alreadyHere = true;
               this.alertViewer.presentAlert("Category Here! ", ` Category "${categoryName}" is already here `);
             }
-
           }).catch(error => {
-            this.alertViewer.presentAlert("Checking Error! ", error);
+            //this.alertViewer.presentAlert("Checking Error! ", error);
           });
-
         }
-
-        this.getCategories();
         
       }
 
       if(atleastOneAdded){
         this.alertViewer.presentAlert("Category Adding! ", "Successfully Added!");
+        setTimeout(() =>
+        {
+          this.getCategories();
+        }, 1000);
       }
-      else{
+      else if(!alreadyHere){
         this.alertViewer.presentAlert("Category! ","Name of a category should be entered ");
       }
   
@@ -190,15 +196,7 @@ export class AddCategoryPage {
 
   }
 
-  clear(){ 
-
-    this.dataArray =[];
-    this.category = new Category();
-    this.category.name="";
-    this.dataArray.push(this.category);
-
-  }
-
+  
   /**  Update Category   */
   presentPromptToEdit(id, oldCategory:string) {
     let alert = this.alertCtrl.create({
@@ -220,8 +218,21 @@ export class AddCategoryPage {
         {
           text: 'Update',
           handler: data => {
-            this.database.updateCategoryById(parseInt(id),data.category);
 
+            this.database.checkCategoryByName(data.category).then((result) => { 
+  
+              if(result != 1){      
+                this.database.updateCategoryById(parseInt(id),data.category);                    
+              }
+              else{
+                this.alertViewer.presentAlert("Category Here! ", ` Category "${data.category}" is already here `);
+              }
+  
+            }).catch(error => {
+              
+            });
+
+            
             setTimeout(() =>
             {
               this.getCategories();
@@ -238,7 +249,7 @@ export class AddCategoryPage {
   presentConfirmToDelete(id, category:string) {
     let alert = this.alertCtrl.create({
       title: 'Confirm Deleting',
-      message: 'Do you realy want to delete the category ' +category+ ' ?',
+      message: 'Do you realy want to delete the category "' +category+ '" ?',
       buttons: [
         {
           text: 'Cancel',

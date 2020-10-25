@@ -43,30 +43,46 @@
 
   <div>
     <button ion-button [disabled]="!canAddField" (click)="addField()" color="secondary" round icon-only> <ion-icon name="add"></ion-icon>  </button>
+    <button ion-button color="light" (click)="clear()"  round > Clear </button> 
   </div>
 
-  <div text-center>
+  <div>
+    
+  </div>
+
+  <div end>
+
+    <button ion-button (click)="onSubmit()" round >  ADD </button>
+
+  </div> 
+
+  <!-- <div text-center>
 
     <ion-grid>
 
       <ion-row>
           <ion-col>
-            <button ion-button color="light" (click)="clear()"  round > CLEAR </button> 
+            <button ion-button color="light" (click)="clear()"  round > Clear </button> 
           </ion-col>
   
           <ion-col>
-            <button ion-button (click)="onSubmit()" round > SAVE </button>
+            <button ion-button (click)="onSubmit()" round > ADD </button>
           </ion-col>
       </ion-row>
   
     </ion-grid>
 
-  </div> 
+  </div>  -->
 
-  <div text-center>
+  <!-- <div text-center>
 
     <button ion-button color="secondary" (click)="getCategories()"  round icon-start> <ion-icon name="eye"></ion-icon> View Categories </button>
 
+  </div> -->
+
+  <br>
+  <div>
+    <ion-title> <ion-icon name="eye"></ion-icon>  Categories </ion-title>
   </div>
 
   <div text-center>
