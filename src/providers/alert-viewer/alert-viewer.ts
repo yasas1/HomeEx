@@ -26,4 +26,8 @@ export class AlertViewerProvider {
     setTimeout(()=>alert.dismiss(),3000);
   }
 
+ 
+
+  
+
 }

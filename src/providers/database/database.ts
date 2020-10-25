@@ -267,15 +267,28 @@ export class DatabaseProvider {
     }
   }
 
-  /**  Delete Category by name */
-  deleteCategoryeByName(name:string) {
+  /**  Update Category by id */
+  updateCategoryById(id:number,name:string) {
+    this.databaseObj.executeSql(`
+      UPDATE category
+      SET name = '${name}'
+      WHERE id = '${id}';
+    `, [])
+      .catch(error => {
+        this.alertViewer.presentAlert("Updating Error! ","Category updating error"+JSON.stringify(error));
+      }
+    );
+  }
+
+  /**  Delete Category by Id */
+  deleteCategoryeById(id:number) {
     this.databaseObj.executeSql(`
       DELETE FROM category 
-      WHERE name = '${name}';
+      WHERE id = '${id}';
     `, []).then(()=>{
-        this.alertViewer.presentAlert("Categories","Deleted Successfully!")
+        this.alertViewer.presentAlert("Category!","Deleted Successfully!")
       }).catch(error => {
-        this.alertViewer.presentAlert("Deleting Error! ","Expenditure updating error");
+        this.alertViewer.presentAlert("Deleting Error! ","Categories deleting error");
       }
     );
   }

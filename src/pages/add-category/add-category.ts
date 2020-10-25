@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController ,AlertController} from 'ionic-angular';
 import { Category } from '../../models/Category';
 import { AlertViewerProvider } from '../../providers/alert-viewer/alert-viewer';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -34,7 +34,9 @@ export class AddCategoryPage {
     public navParams: NavParams,
     private database: DatabaseProvider,
     public formBuilder: FormBuilder,
-    public alertViewer: AlertViewerProvider
+    public alertViewer: AlertViewerProvider,
+    public updateModal : ModalController,
+    private alertCtrl: AlertController
     ){
 
     this.category = new Category();
@@ -121,6 +123,8 @@ export class AddCategoryPage {
           });
 
         }
+
+        this.getCategories();
         
       }
 
@@ -186,14 +190,74 @@ export class AddCategoryPage {
 
   }
 
-  editCategory(id){
-    this.alertViewer.presentAlert("Edit! ","Edit Button "+id);
+  /**  Update Category   */
+  presentPromptToEdit(id, oldCategory:string) {
+    let alert = this.alertCtrl.create({
+      title: 'Update Category',
+      inputs: [
+        {
+          name: 'category',
+          placeholder: oldCategory
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Update',
+          handler: data => {
+            this.database.updateCategoryById(parseInt(id),oldCategory);
+
+            setTimeout(() =>
+            {
+              this.getCategories();
+            }, 1000);
+            
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
+  /**  Delete Category */
   deleteCategory(id){
     this.alertViewer.presentAlert("Delete! ","Delete Button "+id);
   }
 
+  presentConfirmToDelete(id, category:string) {
+    let alert = this.alertCtrl.create({
+      title: 'Confirm Deleting',
+      message: 'Do you realy want to delete the category ' +category+ ' ?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+
+            this.database.deleteCategoryeById(parseInt(id));
+
+            setTimeout(() =>
+            {
+              this.getCategories();
+            }, 1000);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
   
 
 }

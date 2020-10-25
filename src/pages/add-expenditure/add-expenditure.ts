@@ -172,7 +172,7 @@ export class AddAccountPage {
 
   /** insert default categories */
   private insertCategories(){
-    this.database.insertCategory("Food");
+    this.database.insertCategory("Family");
     this.database.insertCategory("Medicine");
     /* this.database.insertCategory("Fashion");
     this.database.insertCategory("Bills");

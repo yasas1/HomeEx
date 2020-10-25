@@ -95,13 +95,13 @@
 
             <ion-col col-2>
 
-              <button ion-button  style="background-color: yellow;" (click)="editCategory(category.id)" round icon-only> <ion-icon name="create"></ion-icon> </button>
+              <button ion-button  style="background-color:darkorange;" (click)="presentPromptToEdit(category.id,category.name.toString())" round icon-only> <ion-icon name="create"></ion-icon> </button>
             
           </ion-col>
       
             <ion-col col-2>
 
-                <button ion-button  color="danger" (click)="deleteCategory(category.id)" round icon-only> <ion-icon name="trash"></ion-icon> </button>
+                <button ion-button color="danger" (click)="deleteCategory(category.id)" round icon-only> <ion-icon name="trash"></ion-icon> </button>
               
             </ion-col>
     
