@@ -263,7 +263,7 @@ export class DatabaseProvider {
         return 0;
       }
     } catch (error) {
-      this.alertViewer.presentAlert("Categories Getting Error! ", "Error" + JSON.stringify(error));
+      this.alertViewer.presentAlert("Categories Getting Error! ", "Error");
     }
   }
 
@@ -275,7 +275,7 @@ export class DatabaseProvider {
       WHERE id = '${id}';
     `, [])
       .catch(error => {
-        this.alertViewer.presentAlert("Updating Error! ","Category updating error"+JSON.stringify(error));
+        this.alertViewer.presentAlert("Updating Error! ","Category updating error");
       }
     );
   }
@@ -285,9 +285,8 @@ export class DatabaseProvider {
     this.databaseObj.executeSql(`
       DELETE FROM category 
       WHERE id = '${id}';
-    `, []).then(()=>{
-        this.alertViewer.presentAlert("Category!","Deleted Successfully!")
-      }).catch(error => {
+    `, [])
+      .catch(error => {
         this.alertViewer.presentAlert("Deleting Error! ","Categories deleting error");
       }
     );

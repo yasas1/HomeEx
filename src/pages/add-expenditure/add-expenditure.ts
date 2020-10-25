@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { DatePipe } from '@angular/common'; 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatabaseProvider } from '../../providers/database/database';
 import { AlertViewerProvider } from '../../providers/alert-viewer/alert-viewer';
-import { Platform} from 'ionic-angular';
 
 @IonicPage()
 @Component({

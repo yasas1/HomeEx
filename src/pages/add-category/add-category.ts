@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController ,AlertController} from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController ,AlertController, Platform} from 'ionic-angular';
 import { Category } from '../../models/Category';
 import { AlertViewerProvider } from '../../providers/alert-viewer/alert-viewer';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -32,6 +32,7 @@ export class AddCategoryPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private platform: Platform,
     private database: DatabaseProvider,
     public formBuilder: FormBuilder,
     public alertViewer: AlertViewerProvider,
@@ -50,6 +51,16 @@ export class AddCategoryPage {
   }
 
   ionViewDidLoad() {
+
+    this.platform
+      .ready()
+      .then(() =>
+      {
+        setTimeout(() =>
+        {
+          this.getCategories();
+        }, 1000);
+      });
     
   }
 
@@ -166,8 +177,6 @@ export class AddCategoryPage {
 
           for(let i=0; i < categoriesLength; i++) {
 
-            this.alertViewer.presentAlert("Categories! ","category "+categories[i].name);
-
             this.categoryList.push({
               id: categories[i].id,
               name: categories[i].name
@@ -211,7 +220,7 @@ export class AddCategoryPage {
         {
           text: 'Update',
           handler: data => {
-            this.database.updateCategoryById(parseInt(id),oldCategory);
+            this.database.updateCategoryById(parseInt(id),data.category);
 
             setTimeout(() =>
             {
@@ -226,10 +235,6 @@ export class AddCategoryPage {
   }
 
   /**  Delete Category */
-  deleteCategory(id){
-    this.alertViewer.presentAlert("Delete! ","Delete Button "+id);
-  }
-
   presentConfirmToDelete(id, category:string) {
     let alert = this.alertCtrl.create({
       title: 'Confirm Deleting',
