@@ -44,15 +44,16 @@
   <div>
     <button ion-button [disabled]="!canAddField" (click)="addField()" color="secondary" round icon-only> <ion-icon name="add"></ion-icon>  </button>
     <button ion-button color="light" (click)="clear()"  round > Clear </button> 
+    <button ion-button (click)="onSubmit()" round style="position: absolute; right: 0;">  ADD </button>
   </div>
 
   <div>
     
   </div>
 
-  <div text-end>
+  <div >
 
-    <button ion-button (click)="onSubmit()" round >  ADD </button>
+    
 
   </div> 
 
