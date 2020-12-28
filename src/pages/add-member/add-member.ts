@@ -4,13 +4,14 @@ import { AlertViewerProvider } from '../../providers/alert-viewer/alert-viewer';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatabaseProvider } from '../../providers/database/database';
 import { Member } from '../../models/Member';
+import { DatePipe } from '@angular/common'; 
 
-/**
- * Generated class for the AddMemberPage page.
+/*
  *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+ * @author Yasas Ranawaka
+ * 
+ *  Member Management
+*/
 
 @IonicPage()
 @Component({
@@ -29,7 +30,7 @@ export class AddMemberPage {
 
   memberForm: FormGroup;
 
-  
+  public today: any;
 
   constructor(
     public navCtrl: NavController,
@@ -37,6 +38,7 @@ export class AddMemberPage {
     private platform: Platform,
     private database: DatabaseProvider,
     public formBuilder: FormBuilder,
+    private datePipe: DatePipe,
     private alertViewer: AlertViewerProvider,
     public updateModal : ModalController,
     private alertCtrl: AlertController
@@ -45,7 +47,7 @@ export class AddMemberPage {
     this.member = new Member();
     this.member.name="";
     this.dataArray.push(this.member);
-
+    this.today = this.transformDateFormat2(new Date());
     this.memberForm = formBuilder.group({
       'member': ['', Validators.compose([Validators.required])]
     });
@@ -153,7 +155,7 @@ export class AddMemberPage {
         else if(allNull){
           this.alertViewer.presentAlert("Member! ","Name of a member should be entered ");
         }
-      }, 1500);
+      }, 1000);
       
       this.canAddField = true;
       setTimeout(() =>
@@ -270,6 +272,10 @@ export class AddMemberPage {
       ]
     });
     alert.present();
+  }
+
+  private transformDateFormat2(date):string {
+    return this.datePipe.transform(date, 'MMMM dd yyyy'); 
   }
 
 }

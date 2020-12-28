@@ -4,12 +4,12 @@ import { Category } from '../../models/Category';
 import { AlertViewerProvider } from '../../providers/alert-viewer/alert-viewer';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatabaseProvider } from '../../providers/database/database';
-
+import { DatePipe } from '@angular/common'; 
 /*
  *
  * @author Yasas Ranawaka
  * 
- *  Categories work
+ *  Category Management
 */
 
 @IonicPage()
@@ -29,12 +29,15 @@ export class AddCategoryPage {
 
   categoryForm: FormGroup;
 
+  public today: any;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public platform: Platform,
     public database: DatabaseProvider,
     public formBuilder: FormBuilder,
+    private datePipe: DatePipe,
     public alertViewer: AlertViewerProvider,
     public updateModal : ModalController,
     public alertCtrl: AlertController
@@ -43,7 +46,7 @@ export class AddCategoryPage {
     this.category = new Category();
     this.category.name="";
     this.dataArray.push(this.category);
-
+    this.today = this.transformDateFormat2(new Date());
     this.categoryForm = formBuilder.group({
       'category': ['', Validators.compose([Validators.required])]
     });
@@ -150,7 +153,7 @@ export class AddCategoryPage {
         else if(allNull){
           this.alertViewer.presentAlert("Category! ","Name of a category should be entered ");
         }
-      }, 1500);
+      }, 1000);
 
       this.canAddField = true;
       setTimeout(() =>
@@ -267,6 +270,10 @@ export class AddCategoryPage {
       ]
     });
     alert.present();
+  }
+
+  private transformDateFormat2(date):string {
+    return this.datePipe.transform(date, 'MMMM dd yyyy'); 
   }
   
 
