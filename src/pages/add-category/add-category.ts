@@ -32,12 +32,12 @@ export class AddCategoryPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private platform: Platform,
-    private database: DatabaseProvider,
+    public platform: Platform,
+    public database: DatabaseProvider,
     public formBuilder: FormBuilder,
     public alertViewer: AlertViewerProvider,
     public updateModal : ModalController,
-    private alertCtrl: AlertController
+    public alertCtrl: AlertController
     ){
 
     this.category = new Category();

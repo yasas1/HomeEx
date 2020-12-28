@@ -15,6 +15,7 @@ import { DatabaseProvider } from '../providers/database/database';
 import { NetworkProvider } from '../providers/network/network';
 import { AlertViewerProvider } from '../providers/alert-viewer/alert-viewer';
 import { AddCategoryPage } from '../pages/add-category/add-category';
+import { AddMemberPage } from '../pages/add-member/add-member';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { AddCategoryPage } from '../pages/add-category/add-category';
     HomePage,
     ListPage,
     AddAccountPage,
-    AddCategoryPage
+    AddCategoryPage,
+    AddMemberPage
   ],
   providers: [
     StatusBar,

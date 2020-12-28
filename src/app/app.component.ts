@@ -7,6 +7,7 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { AddAccountPage } from '../pages/add-expenditure/add-expenditure';
 import { AddCategoryPage } from '../pages/add-category/add-category';
+import { AddMemberPage } from '../pages/add-member/add-member';
 
 @Component({
   templateUrl: 'app.html'
@@ -25,8 +26,9 @@ export class MyApp {
     this.pages = [
       { title: 'Home', component: HomePage },
       { title: 'List', component: ListPage }, 
-      { title: '+ New Spending', component: AddAccountPage },
-      { title: '+ New Category', component: AddCategoryPage }
+      { title: '+ Spending', component: AddAccountPage },
+      { title: 'Categories', component: AddCategoryPage },
+      { title: 'Members', component: AddMemberPage }
     ];
 
   }

@@ -230,7 +230,7 @@ export class DatabaseProvider {
     }
   }
 
-  /**  Get All Categories */
+  /**  Check the category by name */
   async checkCategoryByName(name:string) {
 
     try {
@@ -310,8 +310,8 @@ export class DatabaseProvider {
       });
   }
 
-  /**  Get Members */
-  async getMembers() {
+  /**  Get all Members */
+  async getAllMembers() {
 
     try {
       const data = await this.databaseObj.executeSql(`
@@ -355,6 +355,49 @@ export class DatabaseProvider {
     } catch (error) {
       this.alertViewer.presentAlert("Members Getting Error! ", "Error" + JSON.stringify(error));
     }
+  }
+
+  /**  Check the category by name */
+  async checkMemberByName(name:string) {
+
+    try {
+      const data = await this.databaseObj.executeSql(`
+      SELECT * FROM member WHERE name = '${name}';
+      `, []);
+      if (data.rows.length > 0) {
+        return 1;
+      }
+      else {
+        return 0;
+      }
+    } catch (error) {
+      this.alertViewer.presentAlert("Member Getting Error! ", "Error" + JSON.stringify(error));
+    }
+  }
+
+  /**  Update Member by id */
+  updateMemberyById(id:number,name:string) {
+    this.databaseObj.executeSql(`
+      UPDATE member
+      SET name = '${name}'
+      WHERE id = '${id}';
+    `, [])
+      .catch(error => {
+        this.alertViewer.presentAlert("Updating Error! ","Member updating error");
+      }
+    );
+  }
+
+   /**  Delete Member by Id */
+   deleteMemberById(id:number) {
+    this.databaseObj.executeSql(`
+      DELETE FROM member 
+      WHERE id = '${id}';
+    `, [])
+      .catch(error => {
+        this.alertViewer.presentAlert("Deleting Error! ","Member deleting error");
+      }
+    );
   }
 
 

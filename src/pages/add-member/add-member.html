@@ -1,18 +1,111 @@
-<!--
-  Generated template for the AddMemberPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar>
-    <ion-title>add-member</ion-title>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title> Member </ion-title>
   </ion-navbar>
-
 </ion-header>
 
-
 <ion-content padding>
+
+  <div text-center>
+    <ion-title>+ Add Categories</ion-title>
+  </div>
+  <br><br>
+
+  <div *ngFor="let att of dataArray; let idx = index">
+
+    <ion-grid>
+
+      <ion-row>
+        <ion-col col-3>
+          <ion-label color="primary">Name</ion-label>
+        </ion-col>
+
+        <ion-col col-7>
+          <ion-item>
+            <ion-input type="text" [(ngModel)]="dataArray[idx].name" required></ion-input>
+          </ion-item>
+        </ion-col>
+  
+        <ion-col col-2>
+          <button ion-button *ngIf="idx!=0" (click)="removeField(idx)"  color="danger" round icon-only> <ion-icon name="remove"></ion-icon> </button>
+        </ion-col>
+
+      </ion-row>
+  
+    </ion-grid>
+
+  </div>
+
+  <br> 
+
+  <div>
+    <button ion-button [disabled]="!canAddField" (click)="addField()" color="secondary" round icon-only> <ion-icon name="add"></ion-icon>  </button>
+    <button ion-button color="light" (click)="clear()"  round > Clear </button> 
+    <button ion-button (click)="onSubmit()" round style="position: absolute; right: 0;">  ADD </button>
+  </div>
+
+  <div>
+    
+  </div>
+
+  <div >
+
+    
+
+  </div> 
+
+  <br>
+  <div>
+    <ion-title> Members </ion-title>
+  </div>
+
+  <div text-center>
+
+    <ion-list> 
+
+      <div ion-item *ngFor="let category of memberList let idx = index" >
+
+        <ion-grid>
+
+          <ion-row>
+            <ion-col col-2>
+
+              <div icon-start>
+                <ion-icon name="star-outline"></ion-icon>
+                {{idx + 1}}
+              </div>
+                             
+            </ion-col>
+    
+            <ion-col col-6>
+
+                {{category.name}}
+              
+            </ion-col>
+
+            <ion-col col-2>
+
+              <button ion-button  style="background-color:darkorange;" (click)="presentPromptToEdit(category.id,category.name.toString())" round icon-only> <ion-icon name="create"></ion-icon> </button>
+            
+          </ion-col>
+      
+            <ion-col col-2>
+
+                <button ion-button color="danger" (click)="presentConfirmToDelete(category.id,category.name.toString())" round icon-only> <ion-icon name="trash"></ion-icon> </button>
+              
+            </ion-col>
+    
+          </ion-row>
+      
+        </ion-grid>
+        
+      </div>
+
+    </ion-list>
+
+  </div>
 
 </ion-content>
