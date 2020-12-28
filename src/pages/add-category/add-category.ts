@@ -138,18 +138,21 @@ export class AddCategoryPage {
           });
         }
       }
-
-      if(atleastOneAdded){
-        this.alertViewer.presentAlert("Category Adding! ", "Successfully Added!");
-        setTimeout(() =>
+      setTimeout(() =>
         {
-          this.getCategories();
-        }, 1000);
-      }
-      else if(allNull){
-        this.alertViewer.presentAlert("Category! ","Name of a category should be entered ");
-      }
-  
+        if(atleastOneAdded){
+          this.alertViewer.presentAlert("Category Adding! ", "Successfully Added!");
+          setTimeout(() =>
+          {
+            this.getCategories();
+          }, 500);
+        }
+        else if(allNull){
+          this.alertViewer.presentAlert("Category! ","Name of a category should be entered ");
+        }
+      }, 1500);
+
+      this.canAddField = true;
       setTimeout(() =>
       {
         this.dataArray =[];

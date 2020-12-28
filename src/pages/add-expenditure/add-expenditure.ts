@@ -199,7 +199,7 @@ export class AddAccountPage {
   /** Get members from db and SET category drop down ngModel */
   private setMembersInDropDown(){
 
-    this.database.getMembers().then((result) => { 
+    this.database.getAllMembers().then((result) => { 
 
       let members;
 

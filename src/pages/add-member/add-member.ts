@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController ,AlertController, Platform} from 'ionic-angular';
-import { Category } from '../../models/Category';
 import { AlertViewerProvider } from '../../providers/alert-viewer/alert-viewer';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatabaseProvider } from '../../providers/database/database';
@@ -29,6 +28,8 @@ export class AddMemberPage {
   public canAddField:boolean = true;
 
   memberForm: FormGroup;
+
+  
 
   constructor(
     public navCtrl: NavController,
@@ -102,7 +103,7 @@ export class AddMemberPage {
   clear(){ 
 
     this.dataArray =[];
-    this.member = new Category();
+    this.member = new Member();
     this.member.name="";
     this.dataArray.push(this.member);
     this.canAddField = true;
@@ -140,21 +141,25 @@ export class AddMemberPage {
         }
       }
 
-      if(atleastOneAdded){
-        this.alertViewer.presentAlert("Member Adding! ", "Successfully Added!");
-        setTimeout(() =>
-        {
-          this.getMembers();
-        }, 1000);
-      }
-      else if(allNull){
-        this.alertViewer.presentAlert("Member! ","Name of a member should be entered ");
-      }
-  
+      setTimeout(() =>
+      {
+        if(atleastOneAdded){
+          this.alertViewer.presentAlert("Member Adding! ", "Successfully Added!");
+          setTimeout(() =>
+          {
+            this.getMembers();
+          }, 500);
+        }
+        else if(allNull){
+          this.alertViewer.presentAlert("Member! ","Name of a member should be entered ");
+        }
+      }, 1500);
+      
+      this.canAddField = true;
       setTimeout(() =>
       {
         this.dataArray =[];
-        this.member = new Category();
+        this.member = new Member();
         this.member.name="";
         this.dataArray.push(this.member);
       }, size*500);

@@ -23,7 +23,8 @@ import { AddMemberPage } from '../pages/add-member/add-member';
     HomePage,
     ListPage,
     AddAccountPage,
-    AddCategoryPage
+    AddCategoryPage,
+    AddMemberPage
   ],
   imports: [
     BrowserModule,
