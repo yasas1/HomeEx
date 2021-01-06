@@ -3,16 +3,29 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Family Spending</ion-title>
+    <ion-title> Family Spending!</ion-title>
+    <div text-end>
+      <ion-note>{{today}}</ion-note>
+    </div>
+
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h3>Ionic Menu Starter</h3>
-
+  <h3> Spending Home</h3>
+  <!-- <button ion-button secondary menuToggle>Toggle Menu</button> -->
   <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
+    Select the month that you want to spend
   </p>
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+  <ion-list>
+    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
+      <!-- <ion-icon name="add" item-start></ion-icon> -->
+      {{item.day}}
+      <div class="item-note" item-end>
+        {{item.spends}}
+      </div>
+    </button>
+  </ion-list>
+  
 </ion-content>
