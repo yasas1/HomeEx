@@ -13,16 +13,27 @@ export class HomePage {
   date:any;
   newDateToday = new Date();
 
+  months = ['January','February','March','April','May','June','July','August','September','October','November','December']; 
+  month:any;
+
+  years = [];
+  year:any;
+
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     private datePipe: DatePipe
-
-    ) {
+    ){
 
     this.today = this.transformDateFormat2( this.newDateToday);
     this.date = this.transformDateFormat1(this.newDateToday);
 
+    this.month = this.months[this.newDateToday.getMonth()];
+
+    this.year = this.newDateToday.getFullYear();
+    this.years.push(this.year);
+    this.years.push(this.year-1);
+    
 
     let numOfDays = this.daysInMonth(this.newDateToday);
     let displayDays = this.getDaysInMonth(this.newDateToday);
@@ -55,7 +66,7 @@ export class HomePage {
 
     let numOfDays = new Date(year,month,0).getDate(); 
     let days = [];
-    var DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']; 
+    let DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']; 
     let dateString :string;
     let date :string;
     let dayName:string;

@@ -15,12 +15,36 @@
   <h3> Spending Home</h3>
   <!-- <button ion-button secondary menuToggle>Toggle Menu</button> -->
   <p>
-    Select the month that you want to spend
+    Select the month and the year that you want to spend
   </p>
+  <br>
+
+  <ion-grid>
+    <ion-row >
+
+        <ion-col>
+          <ion-item>
+            <ion-select interface="popover" [(ngModel)]="month" selectedText="{{month}}" name="month">
+              <ion-option *ngFor="let month of months" [value]="month">{{month}}</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        
+        <ion-col>
+          <ion-item>
+            <ion-select interface="popover" [(ngModel)]="year" selectedText="{{year}}" name="year">
+              <ion-option *ngFor="let year of years" [value]="year">{{year}}</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+
+    </ion-row>
+  </ion-grid>
+    
+  <br><br>
 
   <ion-list>
     <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
-      <!-- <ion-icon name="add" item-start></ion-icon> -->
       {{item.day}}
       <div class="item-note" item-end>
         {{item.spends}}
