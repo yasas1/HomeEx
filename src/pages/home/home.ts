@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { DatePipe } from '@angular/common'; 
+import { AlertViewerProvider } from '../../providers/alert-viewer/alert-viewer';
 
 @Component({
   selector: 'page-home',
@@ -11,7 +12,7 @@ export class HomePage {
   items: Array<{day: string, date: any, spends: string}>;
   today: any;
   date:any;
-  newDateToday = new Date();
+  private newDateToday = new Date();
 
   months = ['January','February','March','April','May','June','July','August','September','October','November','December']; 
   month:any;
@@ -22,7 +23,8 @@ export class HomePage {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private alertViewer: AlertViewerProvider,
     ){
 
     this.today = this.transformDateFormat2( this.newDateToday);
@@ -33,20 +35,25 @@ export class HomePage {
     this.year = this.newDateToday.getFullYear();
     this.years.push(this.year);
     this.years.push(this.year-1);
-    
-
-    let numOfDays = this.daysInMonth(this.newDateToday);
-    let displayDays = this.getDaysInMonth(this.newDateToday);
 
     this.items = [];
-    for (let i = 0; i < numOfDays; i++) {
+
+    this.itemInitialize();
+    
+  }
+
+  /** Initialize the spending day list with current month upto today */
+  private itemInitialize(){
+
+    let displayDays = this.getDaysInMonth(this.newDateToday.getFullYear(),this.newDateToday.getMonth()+1);
+
+    for (let i = 0; i < this.newDateToday.getDate(); i++) {
       this.items.push({
-        day: i+1 + '  '+ displayDays[i].dayName ,
+        day: i+1 + '    '+ displayDays[i].dayName ,
         date: displayDays[i].date ,
-        spends: 'Total Spending ' + displayDays[i].date
+        spends:  displayDays[i].date
       });
     }
-    
   }
 
   itemTapped(event, item) {
@@ -55,14 +62,42 @@ export class HomePage {
     });
   }
 
-  private daysInMonth(anyDateInMonth:any) {
-  return new Date(anyDateInMonth.getFullYear(),anyDateInMonth.getMonth()+1,0).getDate();
+  onChange($event){
+    //$event.target.value
+    this.alertViewer.presentAlert("1 Here! ", this.month);
+    this.alertViewer.presentAlert("2 Here! ", this.year);
+    
+    let year = parseInt(this.year);
+    let month = this.months.indexOf(this.month)
+
+    let displayDays = this.getDaysInMonth(year, month+1);
+    let daysInMonth = this.daysInMonth(year, month+1);
+
+    this.alertViewer.presentAlert("3 Here! ", displayDays[1].dayName);
+    this.alertViewer.presentAlert("4 Here! ", daysInMonth.toString());
+
+    setTimeout(() =>
+    {
+      this.items = [];
+      for (let i = 0; i < daysInMonth; i++) {
+        this.items.push({
+          day: i+1 + '    '+ displayDays[i].dayName ,
+          date: displayDays[i].date ,
+          spends:  displayDays[i].date
+        });
+      }
+    }, 500);
+
+    
+    
   }
 
-  private getDaysInMonth(anyDateInMonth:any): any {
+  private daysInMonth(year:any,month:any) {
+    return new Date(year,month,0).getDate();
+  }
 
-    let year = anyDateInMonth.getFullYear();
-    let month = anyDateInMonth.getMonth()+1;
+  /** get the date with day name for the month */
+  private getDaysInMonth(year:any,month:any): any {
 
     let numOfDays = new Date(year,month,0).getDate(); 
     let days = [];

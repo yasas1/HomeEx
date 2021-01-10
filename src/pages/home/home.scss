@@ -1,11 +1,25 @@
-/* Set the width to the full container and center the content */
-ion-select {
-    width: 100%;
-  
+.selector {
+    font-family: SFNSDisplay;
+    font-size: 12px;
+    line-height: 1.2;
+    letter-spacing: 0.1px;
+    color: #29235e;
+    width: 100% !important;
+    max-width: 100% !important;
     justify-content: center;
-
-}
-  
+    text-align: center;
+  }
+  .option {
+    font-family: SFNSDisplay;
+    font-size: 8px;
+    line-height: 1.2;
+    letter-spacing: 0.1px;
+    color: #29235e;
+    width: 100% !important;
+    max-width: 100% !important;
+    justify-content: center;
+    height: 20px;
+  }
 
 
   
