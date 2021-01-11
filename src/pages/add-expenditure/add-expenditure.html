@@ -3,20 +3,17 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title> SPENDING </ion-title>
-    <div text-end>
-      <ion-label style="font-style: oblique;font-family: fantasy;">  {{today}} </ion-label>
-    </div>
-    
+    <ion-title> SPENDING </ion-title> 
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
 
-  <div text-center>
-    <ion-title style="font-style:inherit ;font-family: fantasy;">New Spending</ion-title>
-  </div>
-  <br><br>
+  <ion-label  text-end style="font-style: oblique;font-family: fantasy; font-size:x-small ;">  {{today}} </ion-label>
+
+  <ion-title text-center style="font-style:inherit ;font-family: fantasy;">New Spending</ion-title>
+
+  <br>
 
   <div [formGroup]="expenditureForm">
 

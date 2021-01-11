@@ -166,12 +166,11 @@ export class AddAccountPage {
 
   /** insert default categories */
   private insertCategories(){
-    this.database.insertCategory("Common");
+    this.database.insertCategory("Food");
     this.database.insertCategory("Medicine");
-    /* this.database.insertCategory("Fashion");
     this.database.insertCategory("Bills");
-    this.database.insertCategory("Furnitures");
-    this.database.insertCategory("Other"); */
+    this.database.insertCategory("Fashion");
+    this.database.insertCategory("Common");
   }
 
   /** check members count from db and set categories*/

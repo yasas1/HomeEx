@@ -3,23 +3,20 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title> HOME</ion-title>
-    <div text-end>
-      <ion-label style="font-style: oblique;font-family: fantasy;">  {{today}} </ion-label>
-    </div>
-
+    <ion-title> HOME </ion-title>
+    
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
 
-  <div text-center>
-    <ion-title style="font-style:inherit ;font-family: fantasy;">Spendings</ion-title>
-  </div>
+  <ion-label  text-end style="font-style: oblique;font-family: fantasy; font-size:x-small ;">  {{today}} </ion-label>
+
+  <ion-title text-center style="font-style:inherit ;font-family: fantasy;">Spendings</ion-title>
   
   <br>
 
-  <ion-note>
+  <ion-note style="font-weight:bolder; color:darkgrey ;">
     Select the month and the year 
   </ion-note>
 
@@ -47,13 +44,13 @@
     
   <br>
 
-  <ion-list>
+  <ion-note style="font-weight:bolder; color:darkgrey ;" >
+    Tap on the spending day
+  </ion-note>
 
-    <ion-list-header>
-      <ion-label>
-        Tap on Spending Days
-      </ion-label>
-    </ion-list-header>
+  <br>
+
+  <ion-list>
 
     <button style="font-style: oblique;font-family: fantasy;" ion-item *ngFor="let spending of spendings" (click)="spendingTapped($event, spending)">
       
