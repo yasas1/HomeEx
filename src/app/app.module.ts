@@ -16,6 +16,7 @@ import { NetworkProvider } from '../providers/network/network';
 import { AlertViewerProvider } from '../providers/alert-viewer/alert-viewer';
 import { AddCategoryPage } from '../pages/add-category/add-category';
 import { AddMemberPage } from '../pages/add-member/add-member';
+import { TappedSpendingPage } from '../pages/tapped-spending/tapped-spending';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { AddMemberPage } from '../pages/add-member/add-member';
     ListPage,
     AddAccountPage,
     AddCategoryPage,
-    AddMemberPage
+    AddMemberPage,
+    TappedSpendingPage
   ],
   imports: [
     BrowserModule,
@@ -37,7 +39,8 @@ import { AddMemberPage } from '../pages/add-member/add-member';
     ListPage,
     AddAccountPage,
     AddCategoryPage,
-    AddMemberPage
+    AddMemberPage,
+    TappedSpendingPage
   ],
   providers: [
     StatusBar,
@@ -47,7 +50,7 @@ import { AddMemberPage } from '../pages/add-member/add-member';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DatabaseProvider,
     NetworkProvider,
-    AlertViewerProvider
+    AlertViewerProvider,
   ]
 })
 export class AppModule {}

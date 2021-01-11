@@ -3,6 +3,8 @@ import { NavController, NavParams, Platform } from 'ionic-angular';
 import { DatePipe } from '@angular/common'; 
 //import { AlertViewerProvider } from '../../providers/alert-viewer/alert-viewer';
 import { DatabaseProvider } from '../../providers/database/database';
+import { TappedSpendingPage } from '../tapped-spending/tapped-spending';
+import { Spending } from '../../models/Spending';
 
 @Component({
   selector: 'page-home',
@@ -10,7 +12,7 @@ import { DatabaseProvider } from '../../providers/database/database';
 })
 export class HomePage {
 
-  public spendings: Array<{day: string, date: any, spends: string}>;
+  public spendings: Array<Spending>;
   public today: any;
   public date:any;
 
@@ -77,6 +79,8 @@ export class HomePage {
     {
       
       let expendituresLength = this.expenditures.length;
+      
+
       for (let i = 0; i < this.newDateToday.getDate(); i++) {
         let spends = 0;
 
@@ -89,11 +93,12 @@ export class HomePage {
         }
 
         //push into spending array
-        this.spendings.push({
-          day: i+1 + '    '+ displayDays[i].dayName ,
-          date: displayDays[i].date ,
-          spends:  spends.toString()
-        });
+        let spending = new Spending();
+        spending.day = i+1 + ' '+ displayDays[i].dayName;
+        spending.date = displayDays[i].date;
+        spending.spends = spends.toString();
+        this.spendings.push(spending);
+        
       }
 
     }, 700); 
@@ -120,7 +125,7 @@ export class HomePage {
     {
       let expendituresLength = this.expenditures.length;
       this.spendings = [];
-
+      
       for (let i = 0; i < daysInMonth; i++) {
         let spends = 0;
 
@@ -133,19 +138,21 @@ export class HomePage {
         }
 
         //push into spending array
-        this.spendings.push({
-          day: i+1 + '    '+ displayDays[i].dayName ,
-          date: displayDays[i].date ,
-          spends:  spends.toString()
-        });
+        let spending = new Spending();
+        spending.day = i+1 + ' '+ displayDays[i].dayName;
+        spending.date = displayDays[i].date;
+        spending.spends = spends.toString();
+        this.spendings.push(spending);
+        
       }
+
     }, 700); 
-    
+
   }
 
   /** navigate to new page when a day is tapped */
   spendingTapped(event, spending) {
-    this.navCtrl.push(HomePage, {
+    this.navCtrl.push(TappedSpendingPage, {
       spending: spending
     });
   }
