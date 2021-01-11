@@ -24,7 +24,7 @@
 
         <ion-col>
           <ion-item>
-            <ion-select class="selector" interface="popover" [(ngModel)]="month" name="month" (ionChange)="onChange($event)">
+            <ion-select class="selector" interface="popover" [(ngModel)]="month" name="month" (ionChange)="onMonthYearChange($event)">
               <ion-option class="option" *ngFor="let month of months" [value]="month">{{month}}</ion-option>
             </ion-select>
           </ion-item>
@@ -32,7 +32,7 @@
         
         <ion-col>
           <ion-item>
-            <ion-select class="selector" interface="popover" [(ngModel)]="year" name="year" (ionChange)="onChange($event)" >
+            <ion-select class="selector" interface="popover" [(ngModel)]="year" name="year" (ionChange)="onMonthYearChange($event)" >
               <ion-option class="option" *ngFor="let year of years" [value]="year">{{year}}</ion-option>
             </ion-select>
           </ion-item>
@@ -43,8 +43,6 @@
     
   <br><br>
 
-  
-
   <ion-list>
 
     <ion-list-header>
@@ -53,10 +51,10 @@
       </ion-label>
     </ion-list-header>
 
-    <button style="font-style: italic; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;" ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
-      {{item.day}}
+    <button style="font-style: italic; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;" ion-item *ngFor="let spending of spendings" (click)="spendingTapped($event, spending)">
+      {{spending.day}}
       <div class="item-note" item-end>
-        Rs. {{item.spends}}
+        Rs. {{spending.spends}}
       </div>
     </button>
 

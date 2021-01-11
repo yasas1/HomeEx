@@ -91,12 +91,7 @@ export class AddAccountPage {
   }
 
   getExpenditures(){
-
-    
-    this.alertViewer.presentAlert("Get Expenditures! ","checked "+this.date);
-    this.alertViewer.presentAlert("Get Expenditures! ","checked "+this.member);
-    
-
+  
     this.database.getExpendituresByDate("2020-08-17").then((result) => { 
 
       let expenditures;

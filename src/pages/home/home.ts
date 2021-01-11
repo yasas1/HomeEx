@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Platform } from 'ionic-angular';
 import { DatePipe } from '@angular/common'; 
-import { AlertViewerProvider } from '../../providers/alert-viewer/alert-viewer';
+//import { AlertViewerProvider } from '../../providers/alert-viewer/alert-viewer';
+import { DatabaseProvider } from '../../providers/database/database';
 
 @Component({
   selector: 'page-home',
@@ -9,22 +10,27 @@ import { AlertViewerProvider } from '../../providers/alert-viewer/alert-viewer';
 })
 export class HomePage {
 
-  items: Array<{day: string, date: any, spends: string}>;
-  today: any;
-  date:any;
+  public spendings: Array<{day: string, date: any, spends: string}>;
+  public today: any;
+  public date:any;
+
   private newDateToday = new Date();
 
-  months = ['January','February','March','April','May','June','July','August','September','October','November','December']; 
-  month:any;
+  public months = ['January','February','March','April','May','June','July','August','September','October','November','December']; 
+  public month:any;
 
-  years = [];
-  year:any;
+  public years = [];
+  public year:any;
+
+  private expenditures: Array<{date: string, total: any}>;
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     private datePipe: DatePipe,
-    private alertViewer: AlertViewerProvider,
+    private database: DatabaseProvider,
+    private platform: Platform,
+    //private alertViewer: AlertViewerProvider
     ){
 
     this.today = this.transformDateFormat2( this.newDateToday);
@@ -35,63 +41,149 @@ export class HomePage {
     this.year = this.newDateToday.getFullYear();
     this.years.push(this.year);
     this.years.push(this.year-1);
-
-    this.items = [];
-
-    this.itemInitialize();
     
+  }
+
+  ionViewDidLoad() {
+    
+    this.platform
+      .ready()
+      .then(() =>
+      {
+        setTimeout(() =>
+        {
+          this.spendings = [];
+          this.spendingsInitializer();
+        }, 400);
+      });
   }
 
   /** Initialize the spending day list with current month upto today */
-  private itemInitialize(){
+  private spendingsInitializer(){
 
-    let displayDays = this.getDaysInMonth(this.newDateToday.getFullYear(),this.newDateToday.getMonth()+1);
+    let year = this.newDateToday.getFullYear();
+    let month = this.newDateToday.getMonth()+1;
 
-    for (let i = 0; i < this.newDateToday.getDate(); i++) {
-      this.items.push({
-        day: i+1 + '    '+ displayDays[i].dayName ,
-        date: displayDays[i].date ,
-        spends:  displayDays[i].date
-      });
-    }
-  }
+    let displayDays = this.getDaysInMonth(year,month);
 
-  itemTapped(event, item) {
-    this.navCtrl.push(HomePage, {
-      item: item
-    });
-  }
-
-  onChange($event){
-    //$event.target.value
-    this.alertViewer.presentAlert("1 Here! ", this.month);
-    this.alertViewer.presentAlert("2 Here! ", this.year);
+    //set dates to get total spendings foreach day
+    let dateStart =  this.transformDateFormat1(new Date(year.toString()+'-'+month.toString()+'-'+1));
+    let dateEnd =  this.transformDateFormat1(new Date(year.toString()+'-'+month.toString()+'-'+this.newDateToday.getDate()));
     
-    let year = parseInt(this.year);
-    let month = this.months.indexOf(this.month)
-
-    let displayDays = this.getDaysInMonth(year, month+1);
-    let daysInMonth = this.daysInMonth(year, month+1);
-
-    this.alertViewer.presentAlert("3 Here! ", displayDays[1].dayName);
-    this.alertViewer.presentAlert("4 Here! ", daysInMonth.toString());
+    //update global expenditure array 
+    this.getExpenditures(dateStart,dateEnd);
 
     setTimeout(() =>
     {
-      this.items = [];
-      for (let i = 0; i < daysInMonth; i++) {
-        this.items.push({
+      
+      let expendituresLength = this.expenditures.length;
+      for (let i = 0; i < this.newDateToday.getDate(); i++) {
+        let spends = 0;
+
+        //set total spendings from dates
+        for (let j = 0; j < expendituresLength; j++) {
+          if( this.compareDate(this.expenditures[j].date , displayDays[i].date)==0){
+            spends = this.expenditures[j].total;
+            break;
+          }
+        }
+
+        //push into spending array
+        this.spendings.push({
           day: i+1 + '    '+ displayDays[i].dayName ,
           date: displayDays[i].date ,
-          spends:  displayDays[i].date
+          spends:  spends.toString()
         });
       }
-    }, 500);
 
+    }, 700); 
+
+  }
+
+  /** display day list for the selected month and year */
+  onMonthYearChange($event){
     
+    let year = parseInt(this.year);
+    let month = this.months.indexOf(this.month)+1;
+
+    let displayDays = this.getDaysInMonth(year, month);
+    let daysInMonth = this.daysInMonth(year, month);
+
+    //set dates to get total spendings foreach day
+    let dateStart =  this.transformDateFormat1(new Date(year.toString()+'-'+month.toString()+'-'+1));
+    let dateEnd =  this.transformDateFormat1(new Date(year.toString()+'-'+month.toString()+'-'+daysInMonth));
+   
+    //update global expenditure array 
+    this.getExpenditures(dateStart,dateEnd);
+
+    setTimeout(() =>
+    {
+      let expendituresLength = this.expenditures.length;
+      this.spendings = [];
+
+      for (let i = 0; i < daysInMonth; i++) {
+        let spends = 0;
+
+        //set total spendings from dates
+        for (let j = 0; j < expendituresLength; j++) {
+          if( this.compareDate(this.expenditures[j].date , displayDays[i].date)==0){
+            spends = this.expenditures[j].total;
+            break;
+          }
+        }
+
+        //push into spending array
+        this.spendings.push({
+          day: i+1 + '    '+ displayDays[i].dayName ,
+          date: displayDays[i].date ,
+          spends:  spends.toString()
+        });
+      }
+    }, 700); 
     
   }
 
+  /** navigate to new page when a day is tapped */
+  spendingTapped(event, spending) {
+    this.navCtrl.push(HomePage, {
+      spending: spending
+    });
+  }
+
+  /** takes expenditures group by dates and updated in global expenditures */
+  public getExpenditures(datestart:string, dateEnd:string){
+
+    this.expenditures = [];
+
+    this.database.getExpendituresForMonth(datestart,dateEnd).then((result) => { 
+
+      let expenditures;
+
+      if(result != 0){
+
+        expenditures =  result;  
+
+        let expendituresLength = expenditures.length;
+
+        if(expendituresLength > 0){
+
+          for(let i=0; i < expendituresLength; i++) { 
+
+            this.expenditures.push({
+              date: expenditures[i].date ,
+              total:  expenditures[i].total
+            });
+          }
+
+        }
+      }  
+      else{
+        expenditures = 0;
+      } 
+    });
+  }
+
+   /** get the count of days for a month */
   private daysInMonth(year:any,month:any) {
     return new Date(year,month,0).getDate();
   }
@@ -123,6 +215,21 @@ export class HomePage {
 
   private transformDateFormat2(date):string {
     return this.datePipe.transform(date, 'MMMM dd yyyy'); 
+  }
+
+  private compareDate(date1: string, date2: string): number{
+
+    let d1 = new Date(date1); let d2 = new Date(date2);
+
+    // Check if the dates are equal
+    let same = d1.getTime() === d2.getTime();
+    if (same) return 0;
+
+    // Check if the first is greater than second
+    if (d1 > d2) return 1;
+  
+    // Check if the first is less than second
+    if (d1 < d2) return -1;
   }
 
 }
