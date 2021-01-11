@@ -8,6 +8,11 @@
 
   <ion-navbar>
     <ion-title>Tapped Spending</ion-title>
+
+    <div text-end>
+      <ion-label style="font-style: oblique;font-family: fantasy;">  {{today}} </ion-label>
+    </div>
+
   </ion-navbar>
 
 </ion-header>
@@ -15,8 +20,15 @@
 
 <ion-content padding>
 
-  <div style="font-style: oblique;font-family: fantasy;" *ngIf="selectedSpending" padding>
-    <h3>Total Spending <b>{{selectedSpending.spends}}</b> </h3>
+  <br>
+  <div style="font-style: oblique;font-family: fantasy;" *ngIf="selectedSpending" text-center>
+    <h4> {{spendingDate}} </h4>
   </div>
+  <br>
+  <div style="font-style: oblique;font-family: fantasy;" *ngIf="selectedSpending" text-center>
+    <h6>Total Spending : Rs. <b [style.color]="selectedSpending.hasSpends ? 'green' : 'black'">{{selectedSpending.spends}}</b> </h6>
+  </div>
+
+  
 
 </ion-content>

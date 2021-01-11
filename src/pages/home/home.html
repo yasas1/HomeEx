@@ -3,21 +3,25 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title> Family Spending</ion-title>
+    <ion-title> HOME</ion-title>
     <div text-end>
-      <ion-note>{{today}}</ion-note>
+      <ion-label style="font-style: oblique;font-family: fantasy;">  {{today}} </ion-label>
     </div>
 
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h3> Spending Home</h3>
-  <!-- <button ion-button secondary menuToggle>Toggle Menu</button> -->
-  <p>
-    Select the month and the year that you want to spend
-  </p>
+
+  <div text-center>
+    <ion-title style="font-style:inherit ;font-family: fantasy;">Spendings</ion-title>
+  </div>
+  
   <br>
+
+  <ion-note>
+    Select the month and the year 
+  </ion-note>
 
   <ion-grid>
     <ion-row >
@@ -41,18 +45,20 @@
     </ion-row>
   </ion-grid>
     
-  <br><br>
+  <br>
 
   <ion-list>
 
     <ion-list-header>
       <ion-label>
-        Spending Days
+        Tap on Spending Days
       </ion-label>
     </ion-list-header>
 
-    <button style="font-style: oblique;font-family: fantasy;"ion-item *ngFor="let spending of spendings" (click)="spendingTapped($event, spending)">
-      {{spending.day}}
+    <button style="font-style: oblique;font-family: fantasy;" ion-item *ngFor="let spending of spendings" (click)="spendingTapped($event, spending)">
+      
+      {{spending.day}} <ion-icon style="color:green;" *ngIf="spending.hasSpends" name="pricetag"></ion-icon>
+
       <div [style.color]="spending.hasSpends ? 'green' : 'black'" [style.font-weight]="spending.hasSpends ? 'bold' : 'normal'" item-end>
         Rs. {{spending.spends}}
       </div>

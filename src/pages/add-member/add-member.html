@@ -3,9 +3,9 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title> Member </ion-title>
+    <ion-title> MEMBERS </ion-title>
     <div text-end>
-      <ion-note>{{today}}</ion-note>
+      <ion-label style="font-style: oblique;font-family: fantasy;">  {{today}} </ion-label>
     </div>
   </ion-navbar>
 </ion-header>
@@ -13,9 +13,10 @@
 <ion-content padding>
 
   <div text-center>
-    <ion-title>Family Members</ion-title>
+    <ion-title style="font-style:inherit ;font-family: fantasy;">Family Members</ion-title>
   </div>
-  <br><br>
+
+  <br>
 
   <div *ngFor="let att of dataArray; let idx = index">
 
