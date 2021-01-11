@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title> Family Spending!</ion-title>
+    <ion-title> Family Spending</ion-title>
     <div text-end>
       <ion-note>{{today}}</ion-note>
     </div>
@@ -51,9 +51,9 @@
       </ion-label>
     </ion-list-header>
 
-    <button style="font-style: italic; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;" ion-item *ngFor="let spending of spendings" (click)="spendingTapped($event, spending)">
+    <button style="font-style: oblique;font-family: fantasy;"ion-item *ngFor="let spending of spendings" (click)="spendingTapped($event, spending)">
       {{spending.day}}
-      <div class="item-note" item-end>
+      <div [style.color]="spending.hasSpends ? 'green' : 'black'" [style.font-weight]="spending.hasSpends ? 'bold' : 'normal'" item-end>
         Rs. {{spending.spends}}
       </div>
     </button>

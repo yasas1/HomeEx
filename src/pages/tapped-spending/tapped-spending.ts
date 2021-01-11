@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Spending } from '../../models/Spending';
-
+import { DatePipe } from '@angular/common'; 
 /**
  * Generated class for the TappedSpendingPage page.
  *
@@ -18,7 +18,11 @@ export class TappedSpendingPage {
 
   selectedSpending: Spending;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    private datePipe: DatePipe,
+    ) {
 
     this.selectedSpending = navParams.get('spending');
   }

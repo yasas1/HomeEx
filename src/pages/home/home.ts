@@ -97,11 +97,12 @@ export class HomePage {
         spending.day = i+1 + ' '+ displayDays[i].dayName;
         spending.date = displayDays[i].date;
         spending.spends = spends.toString();
+        spending.hasSpends = (spends != 0) ? true:false;
         this.spendings.push(spending);
         
       }
 
-    }, 700); 
+    }, 600); 
 
   }
 
@@ -142,6 +143,7 @@ export class HomePage {
         spending.day = i+1 + ' '+ displayDays[i].dayName;
         spending.date = displayDays[i].date;
         spending.spends = spends.toString();
+        spending.hasSpends = (spends != 0) ? true:false;
         this.spendings.push(spending);
         
       }
